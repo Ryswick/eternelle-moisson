@@ -6,42 +6,42 @@
 <title>L'Éternelle Moisson - Dofus</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg-0:#120d08;
-  --bg-1:#1c150d;
-  --bg-2:#241b11;
-  --bg-panel:#211809;
-  --wood-line:#3a2a17;
-  --parchment:#ece1c4;
-  --parchment-dim:#c9bb98;
+  --bg-0:#150e07;
+  --bg-1:#1f1509;
+  --bg-2:#2a1c0d;
+  --bg-panel:#2a1d0f;
+  --wood-line:#52391a;
+  --parchment:#f4e7c3;
+  --parchment-dim:#d2bf92;
   --ink:#2a1e10;
-  --ochre:#cf8a2e;
-  --ochre-bright:#f0ac4c;
-  --ochre-dim:#8a5f21;
-  --sage:#8a9760;
-  --sage-dim:#5c6540;
+  --ochre:#e09a1f;
+  --ochre-bright:#ffc13d;
+  --ochre-dim:#9a6212;
+  --sage:#93b24c;
+  --sage-dim:#5e7b2c;
   --stone-blue:#6f93ab;
-  --boss-red:#b6522f;
-  --boss-red-dim:#7a3720;
-  --archi-purple:#9868b4;
-  --archi-purple-dim:#664480;
+  --boss-red:#cb4a2a;
+  --boss-red-dim:#7c2b17;
+  --archi-purple:#a46fc4;
+  --archi-purple-dim:#5f3a7a;
   --kral-gold:#e8c25c;
   --shadow:rgba(0,0,0,.5);
-  --glow-ochre:0 0 18px rgba(207,138,46,.35);
+  --glow-ochre:0 0 18px rgba(224,154,31,.35);
   --radius:10px;
-  --font-display:'Cinzel',serif;
-  --font-body:'Spectral',serif;
-  --font-mono:'JetBrains Mono',monospace;
+  --font-display:'Lilita One','Baloo 2',cursive,sans-serif;
+  --font-body:'Nunito',system-ui,sans-serif;
+  --font-mono:'Nunito',system-ui,sans-serif;
 }
 
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
 body{
   background:
-    radial-gradient(ellipse at 20% -10%, rgba(207,138,46,.09), transparent 45%),
-    radial-gradient(ellipse at 90% 10%, rgba(152,104,180,.08), transparent 40%),
+    radial-gradient(ellipse at 20% -10%, rgba(224,154,31,.16), transparent 50%),
+    radial-gradient(ellipse at 90% 10%, rgba(164,111,196,.08), transparent 40%),
     var(--bg-0);
   color:var(--parchment);
   font-family:var(--font-body);
@@ -72,27 +72,11 @@ a{color:var(--ochre-bright);}
 
 header.hero{
   padding:42px 0 26px;
-  border-bottom:1px solid var(--wood-line);
+  border-bottom:2px solid var(--ochre-dim);
   margin-bottom:28px;
   position:relative;
 }
-.eyebrow{
-  font-family:var(--font-mono);
-  font-size:11px;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:var(--sage);
-  margin:0 0 10px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.eyebrow::before{
-  content:"";
-  width:22px;height:1px;
-  background:var(--sage-dim);
-  display:inline-block;
-}
+
 h1{
   font-family:var(--font-display);
   font-weight:700;
@@ -101,10 +85,12 @@ h1{
   color:var(--parchment);
   letter-spacing:.01em;
 }
+
 h1 em{
   font-style:normal;
   color:var(--ochre-bright);
 }
+
 .subtitle{
   color:var(--parchment-dim);
   font-size:15px;
@@ -118,6 +104,7 @@ h1 em{
   gap:32px;
   align-items:center;
 }
+
 @media (max-width:640px){
   .hero-grid{grid-template-columns:1fr;}
 }
@@ -127,23 +114,26 @@ h1 em{
   width:180px;height:180px;
   margin:0 auto;
 }
-.stone-ring svg{width:100%;height:100%;transform:rotate(-90deg);}
-.stone-ring .track{fill:none;stroke:var(--wood-line);stroke-width:9;}
+
+.stone-ring svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible;display:block;}
+.stone-ring .track{fill:none;stroke:var(--wood-line);stroke-width:8;}
 .stone-ring .fill{
-  fill:none;stroke:url(#ringGrad);stroke-width:9;stroke-linecap:round;
-  filter:drop-shadow(0 0 6px rgba(207,138,46,.5));
+  fill:none;stroke:url(#ringGrad);stroke-width:8;stroke-linecap:round;
   transition:stroke-dasharray .5s ease;
 }
+
 .stone-ring .label{
   position:absolute;inset:0;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
 }
+
 .stone-ring .pct{
   font-family:var(--font-display);
   font-size:32px;
   font-weight:700;
   color:var(--ochre-bright);
 }
+
 .stone-ring .cnt{
   font-family:var(--font-mono);
   font-size:11px;
@@ -151,20 +141,33 @@ h1 em{
   margin-top:2px;
 }
 
-.cat-bars{display:flex;flex-direction:column;gap:14px;}
-.cat-bar-row{display:flex;flex-direction:column;gap:6px;}
+.cat-bars{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.cat-bar-row{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
 .cat-bar-top{
   display:flex;justify-content:space-between;align-items:baseline;
   font-family:var(--font-mono);
   font-size:12px;
 }
+
 .cat-name{
   font-family:var(--font-display);
   font-size:14px;
   letter-spacing:.03em;
   color:var(--parchment);
 }
+
 .cat-count{color:var(--parchment-dim);}
+
 .bar-track{
   height:10px;
   background:var(--bg-panel);
@@ -173,12 +176,14 @@ h1 em{
   overflow:hidden;
   position:relative;
 }
+
 .bar-fill{
   height:100%;
   border-radius:6px 0 0 6px;
   transition:width .4s ease;
   position:relative;
 }
+
 .bar-fill.boss{background:linear-gradient(90deg,var(--boss-red-dim),var(--boss-red));}
 .bar-fill.archimonstre{background:linear-gradient(90deg,var(--archi-purple-dim),var(--archi-purple));}
 .bar-fill.overall{background:linear-gradient(90deg,var(--ochre-dim),var(--ochre-bright));}
@@ -189,6 +194,7 @@ section{margin-bottom:34px;}
   margin-bottom:14px;
   flex-wrap:wrap;
 }
+
 h2{
   font-family:var(--font-display);
   font-size:20px;
@@ -196,6 +202,7 @@ h2{
   color:var(--parchment);
   display:flex;align-items:center;gap:10px;
 }
+
 h2 .rune{color:var(--ochre);}
 .section-hint{
   font-size:12.5px;
@@ -208,6 +215,7 @@ h2 .rune{color:var(--ochre);}
   grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
   gap:10px;
 }
+
 .step-card{
   background:var(--bg-panel);
   border:1px solid var(--wood-line);
@@ -216,7 +224,10 @@ h2 .rune{color:var(--ochre);}
   cursor:pointer;
   transition:border-color .15s ease, transform .1s ease;
   text-align:left;
+  color:inherit;
+  font-family:inherit;
 }
+
 .step-card:hover{border-color:var(--ochre-dim);transform:translateY(-1px);}
 .step-card.active{border-color:var(--ochre);box-shadow:var(--glow-ochre);}
 .step-card .st-top{
@@ -226,20 +237,29 @@ h2 .rune{color:var(--ochre);}
   color:var(--parchment-dim);
   margin-bottom:6px;
 }
+
 .step-card .st-label{
   font-family:var(--font-display);
   font-size:13px;
   color:var(--parchment);
 }
-.step-card .st-badge{
-  font-size:9px;
-  padding:1px 6px;
-  border-radius:10px;
+
+.st-badge,.type-badge{
+  font-family:var(--font-mono);
   text-transform:uppercase;
-  letter-spacing:.04em;
+  letter-spacing:.08em;
+  white-space:nowrap;
+  display:inline-flex;align-items:center;gap:6px;
+  background:none;border:none;padding:0;border-radius:0;
 }
-.st-badge.boss{background:rgba(182,82,47,.22);color:#e58f6c;border:1px solid rgba(182,82,47,.4);}
-.st-badge.archimonstre{background:rgba(152,104,180,.22);color:#c39fdc;border:1px solid rgba(152,104,180,.4);}
+
+.st-badge{font-size:9.5px;}
+.type-badge{font-size:11px;}
+.st-badge::before,.type-badge::before{font-size:.9em;line-height:1;}
+.st-badge.boss,.type-badge.boss{color:#e58f6c;}
+.st-badge.boss::before,.type-badge.boss::before{content:"◆";}
+.st-badge.archimonstre,.type-badge.archimonstre{color:#c39fdc;}
+.st-badge.archimonstre::before,.type-badge.archimonstre::before{content:"◇";}
 .step-card .mini-track{
   height:5px;background:var(--bg-0);border-radius:4px;overflow:hidden;margin-top:8px;
 }
@@ -291,7 +311,7 @@ h2 .rune{color:var(--ochre);}
 .chip-toggle.active{
   border-color:var(--ochre);
   color:var(--ochre-bright);
-  background:rgba(207,138,46,.08);
+  background:rgba(224,154,31,.08);
 }
 .chip-toggle input{display:none;}
 .btn{
@@ -334,9 +354,12 @@ tbody tr{
   border-bottom:1px solid rgba(58,42,23,.5);
   transition:background .12s ease;
 }
-tbody tr:hover{background:rgba(207,138,46,.04);}
-tbody tr.captured{background:rgba(138,151,96,.06);}
-tbody tr.captured:hover{background:rgba(138,151,96,.1);}
+
+tbody tr.step-odd{background:transparent;}
+tbody tr.step-even{background:rgba(224,154,31,.07);}
+tbody tr:hover{background:rgba(224,154,31,.12);}
+tbody tr.captured{background:rgba(147,178,76,.07);}
+tbody tr.captured:hover{background:rgba(147,178,76,.12);}
 td{padding:9px 12px;vertical-align:middle;font-size:13.5px;}
 
 .chk-cell{width:42px;text-align:center;}
@@ -367,18 +390,6 @@ td{padding:9px 12px;vertical-align:middle;font-size:13.5px;}
   color:var(--parchment);
 }
 tr.captured .mon-name{color:var(--parchment-dim);text-decoration:line-through;text-decoration-color:var(--sage-dim);}
-.type-badge{
-  font-size:10px;
-  padding:2px 8px;
-  border-radius:10px;
-  text-transform:uppercase;
-  letter-spacing:.04em;
-  font-family:var(--font-mono);
-  white-space:nowrap;
-  display:inline-block;
-}
-.type-badge.boss{background:rgba(182,82,47,.18);color:#e58f6c;border:1px solid rgba(182,82,47,.35);}
-.type-badge.archimonstre{background:rgba(152,104,180,.18);color:#c39fdc;border:1px solid rgba(152,104,180,.35);}
 .step-cell{
   font-family:var(--font-mono);
   color:var(--ochre-bright);
@@ -410,6 +421,31 @@ footer{
   line-height:1.7;
 }
 footer a{color:var(--sage);}
+.kofi{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  background:var(--bg-panel);
+  border:1px solid var(--ochre-dim);
+  border-radius:var(--radius);
+  padding:14px 18px;
+  margin-bottom:22px;
+  font-family:var(--font-body);
+  font-size:15px;
+  color:var(--parchment);
+}
+.kofi p{margin:0;max-width:640px;}
+footer .kofi a{
+  font-family:var(--font-mono);
+  font-size:13px;
+  font-weight:600;
+  background:var(--ochre);
+  color:var(--bg-0);
+  text-decoration:none;
+  padding:9px 16px;
+  border-radius:6px;
+  white-space:nowrap;
+  transition:background .15s ease;
+}
+footer .kofi a:hover{background:var(--ochre-bright);}
 
 ::-webkit-scrollbar{width:10px;height:10px;}
 ::-webkit-scrollbar-track{background:var(--bg-0);}
@@ -438,6 +474,26 @@ footer a{color:var(--sage);}
   td{padding:2px 0;font-size:13px;}
   .step-cell::before{content:"Étape ";}
 }
+
+body{font-variant-numeric:tabular-nums;}
+h1,h2,.cat-name,.stone-ring .pct,.step-card .st-label{font-weight:400;}
+h1{letter-spacing:.02em;}
+h2{font-size:22px;letter-spacing:.01em;}
+.cat-name{font-size:16px;letter-spacing:.01em;}
+.stone-ring .pct{font-size:40px;}
+.step-card .st-label{font-size:15px;}
+.stone-ring .cnt,.cat-count,.results-count,.section-hint,.step-cell,.step-card .st-top{font-weight:700;}
+thead th,.st-badge,.type-badge,.btn,.chip-toggle,.filter-bar select{font-weight:700;}
+.mon-name{font-weight:700;}
+.base-cell{font-weight:400;}
+
+table{table-layout:fixed;}
+thead th:nth-child(1){width:52px;}
+thead th:nth-child(2){width:34%;}
+thead th:nth-child(3){width:17%;}
+thead th:nth-child(4){width:14%;}
+td{overflow-wrap:anywhere;}
+@media (max-width:720px){table{table-layout:auto;}}
 </style>
 </head>
 <body>
@@ -452,8 +508,8 @@ footer a{color:var(--sage);}
         <svg viewBox="0 0 100 100">
           <defs>
             <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#8a5f21"/>
-              <stop offset="100%" stop-color="#f0ac4c"/>
+              <stop offset="0%" stop-color="#b3560c"/>
+              <stop offset="100%" stop-color="#ffc13d"/>
             </linearGradient>
           </defs>
           <circle class="track" cx="50" cy="50" r="42"/>
@@ -545,20 +601,376 @@ footer a{color:var(--sage);}
   </section>
 
   <footer>
+    <div class="kofi">
+      <p>Si ce site vous a aidé, n'hésitez pas à offrir un Ko-fi à son auteur pour qu'il puisse continuer à créer des tools de ce type !</p>
+      <a href="https://ko-fi.com/izukani" target="_blank" rel="noopener">☕ Soutenir sur Ko-fi</a>
+    </div>
     <p>Outil non-officiel, sans lien avec Ankama. Données de progression stockées uniquement dans votre navigateur.</p>
     <p>Site réalisé pour la quête Ocre de Dofus 3.6.</p>
   </footer>
 
 </div>
 
-<script id="monster-data" type="application/json">[{"id":1,"step":1,"type":"boss","name":"Mob l'Éponge","base":""},{"id":2,"step":1,"type":"boss","name":"Bouftou Royal","base":""},{"id":3,"step":1,"type":"boss","name":"Tournesol Affamé","base":""},{"id":4,"step":1,"type":"boss","name":"Gelée Royale Bleuet","base":""},{"id":5,"step":1,"type":"boss","name":"Gelée Royale Menthe","base":""},{"id":6,"step":1,"type":"boss","name":"Shin Larve","base":""},{"id":7,"step":1,"type":"boss","name":"Rakoopeur","base":""},{"id":8,"step":1,"type":"boss","name":"Scarabosse Doré","base":""},{"id":9,"step":1,"type":"boss","name":"Bworkette","base":""},{"id":10,"step":1,"type":"boss","name":"Dragon Cochon","base":""},{"id":11,"step":1,"type":"boss","name":"Choudini","base":""},{"id":12,"step":1,"type":"boss","name":"Reine Nyée","base":""},{"id":13,"step":1,"type":"boss","name":"Tofu Royal","base":""},{"id":14,"step":1,"type":"boss","name":"Blop Coco Royal","base":""},{"id":15,"step":1,"type":"boss","name":"Blop Griotte Royal","base":""},{"id":16,"step":1,"type":"boss","name":"Blop Indigo Royal","base":""},{"id":17,"step":1,"type":"boss","name":"Blop Reinette Royal","base":""},{"id":18,"step":1,"type":"boss","name":"Rat Noir","base":""},{"id":19,"step":1,"type":"boss","name":"Rat Blanc","base":""},{"id":20,"step":1,"type":"boss","name":"Minotoror","base":""},{"id":21,"step":2,"type":"boss","name":"Hell Mina","base":""},{"id":22,"step":2,"type":"boss","name":"Tanukouï San","base":""},{"id":23,"step":2,"type":"boss","name":"Craqueleur Légendaire","base":""},{"id":24,"step":2,"type":"boss","name":"Damadrya","base":""},{"id":25,"step":2,"type":"boss","name":"Gelée Royale Fraise","base":""},{"id":26,"step":2,"type":"boss","name":"Maître Corbac","base":""},{"id":27,"step":2,"type":"boss","name":"Blop Multicolore Royal","base":""},{"id":28,"step":2,"type":"boss","name":"Corailleur Magistral","base":""},{"id":29,"step":2,"type":"boss","name":"Gourlo le Terrible","base":""},{"id":30,"step":2,"type":"boss","name":"Meulou","base":""},{"id":31,"step":2,"type":"boss","name":"Wa Wabbit","base":""},{"id":32,"step":2,"type":"boss","name":"Moon","base":""},{"id":33,"step":2,"type":"boss","name":"Koulosse","base":""},{"id":34,"step":2,"type":"boss","name":"Skeunk","base":""},{"id":35,"step":2,"type":"boss","name":"Abraknyde ancestral","base":""},{"id":36,"step":2,"type":"boss","name":"Hanshi","base":""},{"id":37,"step":2,"type":"boss","name":"Tynril Ahuri","base":""},{"id":38,"step":2,"type":"boss","name":"Tynril Consterné","base":""},{"id":39,"step":2,"type":"boss","name":"Tynril Déconcerté","base":""},{"id":40,"step":2,"type":"boss","name":"Tynril Perfide","base":""},{"id":41,"step":3,"type":"boss","name":"Gelée Royale Citron","base":""},{"id":42,"step":3,"type":"boss","name":"Founoroshi","base":""},{"id":43,"step":3,"type":"boss","name":"Bworker","base":""},{"id":44,"step":3,"type":"boss","name":"Sphincter Cell","base":""},{"id":45,"step":3,"type":"boss","name":"Minotot","base":""},{"id":46,"step":3,"type":"boss","name":"Silf le Rasboul Majeur","base":""},{"id":47,"step":3,"type":"boss","name":"Crocabulia","base":""},{"id":48,"step":3,"type":"boss","name":"Haute Truche","base":""},{"id":49,"step":3,"type":"boss","name":"Chêne mou","base":""},{"id":50,"step":3,"type":"boss","name":"Ougah","base":""},{"id":51,"step":3,"type":"boss","name":"Kimbo","base":""},{"id":52,"step":4,"type":"archimonstre","name":"Sousourizoto le Collant","base":"Souris Grise"},{"id":53,"step":4,"type":"archimonstre","name":"Mosketère le Dévoué","base":"Moskito"},{"id":54,"step":4,"type":"archimonstre","name":"Arakule la Revancharde","base":"Arakne"},{"id":55,"step":4,"type":"archimonstre","name":"Boudalf le Blanc","base":"Boufton Blanc"},{"id":56,"step":4,"type":"archimonstre","name":"Boulgourvil le Lointain","base":"Boufton Noir"},{"id":57,"step":4,"type":"archimonstre","name":"Tofumanchou l'Empereur","base":"Tofu Maléfique"},{"id":58,"step":4,"type":"archimonstre","name":"Arachitik la Souffreteuse","base":"Arakne Malade"},{"id":59,"step":4,"type":"archimonstre","name":"Pioustone le Problème","base":"Piou Bleu"},{"id":60,"step":4,"type":"archimonstre","name":"Pioulbrineur le Mercenaire","base":"Piou Jaune"},{"id":61,"step":4,"type":"archimonstre","name":"Pioulette la Coquine","base":"Piou Rouge"},{"id":62,"step":4,"type":"archimonstre","name":"Pioukas la Plante","base":"Piou Vert"},{"id":63,"step":4,"type":"archimonstre","name":"Pioussokrim le Délétère","base":"Piou Violet"},{"id":64,"step":4,"type":"archimonstre","name":"Craraboss le Féérique","base":"Crabe"},{"id":65,"step":4,"type":"archimonstre","name":"Larvonika l'Instrument","base":"Larve Bleue"},{"id":66,"step":4,"type":"archimonstre","name":"Pioufe la Maquillée","base":"Piou Rose"},{"id":67,"step":4,"type":"archimonstre","name":"Tofuldebeu l'Explosif","base":"Tofu"},{"id":68,"step":4,"type":"archimonstre","name":"Tofurapin le Pétri","base":"Tofu Malade"},{"id":69,"step":4,"type":"archimonstre","name":"Chamchie le Difficile","base":"Champ Champ"},{"id":70,"step":4,"type":"archimonstre","name":"Pissdane l'Insipide","base":"Pissenlit Diabolique"},{"id":71,"step":4,"type":"archimonstre","name":"Araknay la Galopante","base":"Arakne Agressive"},{"id":72,"step":5,"type":"archimonstre","name":"Bandapar l'exclu","base":"Bandit Manchot"},{"id":73,"step":5,"type":"archimonstre","name":"Roz la Magicienne","base":"Rose Démoniaque"},{"id":74,"step":5,"type":"archimonstre","name":"Gelanal le Huileux","base":"Gelée Bleue"},{"id":75,"step":5,"type":"archimonstre","name":"Kwoanneur le Frimeur","base":"Kwoan"},{"id":76,"step":5,"type":"archimonstre","name":"Larchimaide la poussée","base":"Larve Verte"},{"id":77,"step":5,"type":"archimonstre","name":"Boufdégou le Refoulant","base":"Bouftou"},{"id":78,"step":5,"type":"archimonstre","name":"Kolforthe l'Indécollable","base":"Kolérat"},{"id":79,"step":5,"type":"archimonstre","name":"Geloliaine l'Aérien","base":"Gelée Menthe"},{"id":80,"step":5,"type":"archimonstre","name":"Larvapstrè le Subjectif","base":"Larve Orange"},{"id":81,"step":5,"type":"archimonstre","name":"Serpistol l'Illustre","base":"Serpentin"},{"id":82,"step":5,"type":"archimonstre","name":"Tiwa'Missou le Gateux","base":"Black Tiwabbit"},{"id":83,"step":5,"type":"archimonstre","name":"Boudur le Raide","base":"Boulanger sombre"},{"id":84,"step":5,"type":"archimonstre","name":"Tiwalpé le Dévêtu","base":"Tiwabbit"},{"id":85,"step":5,"type":"archimonstre","name":"Tiwoflan le Lâche","base":"Tiwabbit Kiaffin"},{"id":86,"step":5,"type":"archimonstre","name":"Tour le Vice","base":"Tournesol Sauvage"},{"id":87,"step":5,"type":"archimonstre","name":"Bandson le Tonitruant","base":"Bandit du Clan des Roublards"},{"id":88,"step":5,"type":"archimonstre","name":"Gobstiniais le Têtu","base":"Gobet"},{"id":89,"step":5,"type":"archimonstre","name":"Nodkoku le Trahi","base":"Nodkoko"},{"id":90,"step":5,"type":"archimonstre","name":"Tikosto le Mousse","base":"Tikoko"},{"id":91,"step":5,"type":"archimonstre","name":"Trukul le Lent","base":"Trukikol"},{"id":92,"step":6,"type":"archimonstre","name":"Sangria le Fruité","base":"Sanglier"},{"id":93,"step":6,"type":"archimonstre","name":"Champayr le Disjoncté","base":"Champa Vert"},{"id":94,"step":6,"type":"archimonstre","name":"Étoilette la Bouchée","base":"Étoile de la Mer d'Asse"},{"id":95,"step":6,"type":"archimonstre","name":"Vampunor le Glacial","base":"Vampire"},{"id":96,"step":6,"type":"archimonstre","name":"Bilvoezé le Bonimenteur","base":"Biblop Coco"},{"id":97,"step":6,"type":"archimonstre","name":"Bi le Partageur","base":"Biblop Griotte"},{"id":98,"step":6,"type":"archimonstre","name":"Bistou le Quêteur","base":"Biblop Indigo"},{"id":99,"step":6,"type":"archimonstre","name":"Bistou le Rieur","base":"Biblop Reinette"},{"id":100,"step":6,"type":"archimonstre","name":"Chevaustine le Reconstruit","base":"Gob-Trotteur"},{"id":101,"step":6,"type":"archimonstre","name":"Milipussien le Géant","base":"Milirat Strubien"},{"id":102,"step":6,"type":"archimonstre","name":"Boostif l'Affamé","base":"Boo"},{"id":103,"step":6,"type":"archimonstre","name":"Preskapwal le Tendancieux","base":"Prespic"},{"id":104,"step":6,"type":"archimonstre","name":"Chonstip la Passagère","base":"Cochon de Lait"},{"id":105,"step":6,"type":"archimonstre","name":"Torthur la Lutte","base":"Tortue Jaune"},{"id":106,"step":6,"type":"archimonstre","name":"Wabbitud le Constant","base":"Wabbit"},{"id":107,"step":6,"type":"archimonstre","name":"Porfavor le Quémandeur","base":"Berger Porkass"},{"id":108,"step":6,"type":"archimonstre","name":"Robiolego l'Assemblé","base":"Robionicle"},{"id":109,"step":6,"type":"archimonstre","name":"Bouflet le Puéril","base":"Chef de Guerre Bouftou"},{"id":110,"step":6,"type":"archimonstre","name":"Cromikay le Néophyte","base":"Croc Gland"},{"id":111,"step":6,"type":"archimonstre","name":"Tortenssia la Fleurie","base":"Tortue Bleue"},{"id":112,"step":7,"type":"archimonstre","name":"Bambouské le Camouflé","base":"Bambouto"},{"id":113,"step":7,"type":"archimonstre","name":"Corpat le Vampire","base":"Corbac"},{"id":114,"step":7,"type":"archimonstre","name":"Pichduitre le Totem","base":"Pichon Blanc"},{"id":115,"step":7,"type":"archimonstre","name":"Pichdourse le Puissant","base":"Pichon Bleu"},{"id":116,"step":7,"type":"archimonstre","name":"Pichtoire l'Erudit","base":"Pichon Orange"},{"id":117,"step":7,"type":"archimonstre","name":"Pichakoté le Dégoûtant","base":"Pichon Vert"},{"id":118,"step":7,"type":"archimonstre","name":"Tortorak le Cornu","base":"Tortue Rouge"},{"id":119,"step":7,"type":"archimonstre","name":"Maître Amboat le Moqueur","base":"Maître Vampire"},{"id":120,"step":7,"type":"archimonstre","name":"Robocoop l'Échangé","base":"Robot Fléau"},{"id":121,"step":7,"type":"archimonstre","name":"Fourapin le Chaud","base":"Fourbasse"},{"id":122,"step":7,"type":"archimonstre","name":"Milipatte la Griffe","base":"Milimulou"},{"id":123,"step":7,"type":"archimonstre","name":"Minoskour le Sauveur","base":"Minoskito"},{"id":124,"step":7,"type":"archimonstre","name":"Neufedur le Flottant","base":"Noeul"},{"id":125,"step":7,"type":"archimonstre","name":"Tortilleur le Coulé","base":"Tortue Verte"},{"id":126,"step":7,"type":"archimonstre","name":"Bwormage le Respectueux","base":"Bwork Mage"},{"id":127,"step":7,"type":"archimonstre","name":"Wagnagnah le Sanglant","base":"Black Wabbit"},{"id":128,"step":7,"type":"archimonstre","name":"Crognan le Barbare","base":"Crowneille"},{"id":129,"step":7,"type":"archimonstre","name":"Rostensyl la Cuisinière","base":"Rose Obscure"},{"id":130,"step":7,"type":"archimonstre","name":"Minsinistre l'Elu","base":"Mineur Sombre"},{"id":131,"step":7,"type":"archimonstre","name":"Barchwork le Multicolore","base":"Bwork Archer"},{"id":132,"step":8,"type":"archimonstre","name":"Champayt l'Odorant","base":"Champa Bleu"},{"id":133,"step":8,"type":"archimonstre","name":"Chamflay le Ballonné","base":"Champa Marron"},{"id":134,"step":8,"type":"archimonstre","name":"Chamdblé le Cultivé","base":"Champa Rouge"},{"id":135,"step":8,"type":"archimonstre","name":"Craquetuss le Piquant","base":"Craqueboule"},{"id":136,"step":8,"type":"archimonstre","name":"Mandalo l'Aqueuse","base":"Mandrine"},{"id":137,"step":8,"type":"archimonstre","name":"Mallopiée l'Épineuse","base":"Malle Outillée"},{"id":138,"step":8,"type":"archimonstre","name":"Garsim le Mort","base":"Gargrouille"},{"id":139,"step":8,"type":"archimonstre","name":"Draglida la Disparue","base":"Dragodinde Amande Sauvage"},{"id":140,"step":8,"type":"archimonstre","name":"Gelaviv le Glaçon","base":"Gelée Rouge"},{"id":141,"step":8,"type":"archimonstre","name":"Watdogue le Bien Nommé","base":"Wabbit Squelette"},{"id":142,"step":8,"type":"archimonstre","name":"Chafalfer l'Optimiste","base":"Chafer Invisible"},{"id":143,"step":8,"type":"archimonstre","name":"Crakmitaine le Faucheur","base":"Craqueleur"},{"id":144,"step":8,"type":"archimonstre","name":"Bworkasse le Dégoûtant","base":"Bwork"},{"id":145,"step":8,"type":"archimonstre","name":"Abrakroc l'Edenté","base":"Abraknyde"},{"id":146,"step":8,"type":"archimonstre","name":"Krapahut le Randonneur","base":"Kraméléhon"},{"id":147,"step":8,"type":"archimonstre","name":"Scapé l'Epée","base":"Scarafeuille Blanc"},{"id":148,"step":8,"type":"archimonstre","name":"Scarfayss le Balafré","base":"Scarafeuille Bleu"},{"id":149,"step":8,"type":"archimonstre","name":"Scarouarze l'Epopée","base":"Scarafeuille Rouge"},{"id":150,"step":8,"type":"archimonstre","name":"Scaramel le Fondant","base":"Scarafeuille Vert"},{"id":151,"step":8,"type":"archimonstre","name":"Ribibi le Cher","base":"Rib"},{"id":152,"step":9,"type":"archimonstre","name":"Blorie l'Assourdissante","base":"Blop Coco"},{"id":153,"step":9,"type":"archimonstre","name":"Blordur l'Infect","base":"Blop Griotte"},{"id":154,"step":9,"type":"archimonstre","name":"Bloporte le Veule","base":"Blop Indigo"},{"id":155,"step":9,"type":"archimonstre","name":"Blof l'Apathique","base":"Blop Reinette"},{"id":156,"step":9,"type":"archimonstre","name":"Boombata le Garde","base":"Boomba"},{"id":157,"step":9,"type":"archimonstre","name":"Farlon l'Enfant","base":"Cochon de farle"},{"id":158,"step":9,"type":"archimonstre","name":"Scaratyn l'Huître","base":"Scaratos"},{"id":159,"step":9,"type":"archimonstre","name":"Chaffoin le Sournois","base":"Chafer Fantassin"},{"id":160,"step":9,"type":"archimonstre","name":"Larvomatik le Propre","base":"Larve Jaune"},{"id":161,"step":9,"type":"archimonstre","name":"Tronkoneuz la Tranchante","base":"Tronknyde"},{"id":162,"step":9,"type":"archimonstre","name":"Abrakadnuzar","base":"Abrakne"},{"id":163,"step":9,"type":"archimonstre","name":"Chafemal le Bagarreur","base":"Chafer"},{"id":164,"step":9,"type":"archimonstre","name":"Crolnareff l'Exilé","base":"Crocodaille"},{"id":165,"step":9,"type":"archimonstre","name":"Radoutable le Craint","base":"Scélérat Strubien"},{"id":166,"step":9,"type":"archimonstre","name":"Scorpitène l'Enflammé","base":"Scorbute"},{"id":167,"step":9,"type":"archimonstre","name":"Dragnoute l'Irascible","base":"Dragodinde Rousse Sauvage"},{"id":168,"step":9,"type":"archimonstre","name":"Bulsavon le Gonflé","base":"Bulbuisson"},{"id":169,"step":9,"type":"archimonstre","name":"Crustterus l'Organique","base":"Crustorail Kouraçao"},{"id":170,"step":9,"type":"archimonstre","name":"Crustensyl le Pragmatique","base":"Crustorail Malibout"},{"id":171,"step":9,"type":"archimonstre","name":"Cruskof le Rustre","base":"Crustorail Morito"},{"id":172,"step":10,"type":"archimonstre","name":"Crusmeyer le Pervers","base":"Crustorail Passaoh"},{"id":173,"step":10,"type":"archimonstre","name":"Forboyar l'Enigmatique","base":"Forgeron Sombre"},{"id":174,"step":10,"type":"archimonstre","name":"Floriste la Cannibale","base":"Floristile"},{"id":175,"step":10,"type":"archimonstre","name":"Arabord la Cruche","base":"Arakne Majeure"},{"id":176,"step":10,"type":"archimonstre","name":"Grandilok le Clameur","base":"Grand Pa Wabbit"},{"id":177,"step":10,"type":"archimonstre","name":"Wokènrôl le Danseur","base":"Wo Wabbit"},{"id":178,"step":10,"type":"archimonstre","name":"Cavordemal le Sorcier","base":"Cavalier Porkass"},{"id":179,"step":10,"type":"archimonstre","name":"Aboudbra le Porteur","base":"Aboub"},{"id":180,"step":10,"type":"archimonstre","name":"Ameur la Laide","base":"Amlub"},{"id":181,"step":10,"type":"archimonstre","name":"Codenlgaz le Problème","base":"Codem"},{"id":182,"step":10,"type":"archimonstre","name":"Ginsenk le Stimulant","base":"Gink"},{"id":183,"step":10,"type":"archimonstre","name":"Kiroyal le Sirupeux","base":"Kirevam"},{"id":184,"step":10,"type":"archimonstre","name":"Let le Rond","base":"Let Emoliug"},{"id":185,"step":10,"type":"archimonstre","name":"Nelvin le Boulet","base":"Negbib"},{"id":186,"step":10,"type":"archimonstre","name":"Nipulnislip l'Exhibitionniste","base":"Nipul"},{"id":187,"step":10,"type":"archimonstre","name":"Osuxion le Vampirique","base":"Osurc"},{"id":188,"step":10,"type":"archimonstre","name":"Susbewl l'Hypocrite","base":"Susej"},{"id":189,"step":10,"type":"archimonstre","name":"Koktèle le Secoué","base":"Kokoko"},{"id":190,"step":10,"type":"archimonstre","name":"Chafmarcel le Fêtard","base":"Chafer Archer"},{"id":191,"step":10,"type":"archimonstre","name":"Chalan le Commerçant","base":"Chafer Lancier"},{"id":192,"step":11,"type":"archimonstre","name":"Ramitant le Dilettante","base":"Ramane d'Égoutant"},{"id":193,"step":11,"type":"archimonstre","name":"Doktopuss le Maléfique","base":"Dok Alako"},{"id":194,"step":11,"type":"archimonstre","name":"Germinol l'Indigent","base":"Gamino"},{"id":195,"step":11,"type":"archimonstre","name":"Koalastrof la Naturelle","base":"Koalak Immature"},{"id":196,"step":11,"type":"archimonstre","name":"Ouature la Mobile","base":"La Ouassingue"},{"id":197,"step":11,"type":"archimonstre","name":"Ouassébo l'Esthète","base":"Le Ouassingue"},{"id":198,"step":11,"type":"archimonstre","name":"Ouashouash l'Exubérant","base":"Le Ouassingue Entourbé"},{"id":199,"step":11,"type":"archimonstre","name":"Palmito le Menteur","base":"Palmifleur Malibout"},{"id":200,"step":11,"type":"archimonstre","name":"Palmiche le Serein","base":"Palmifleur Morito"},{"id":201,"step":11,"type":"archimonstre","name":"Palmiflette le Convivial","base":"Palmifleur Passaoh"},{"id":202,"step":11,"type":"archimonstre","name":"Sampi l'Eternel","base":"Sanglier des Plaines"},{"id":203,"step":11,"type":"archimonstre","name":"Abrakildas le Vénérable","base":"Abraknyde Vénérable"},{"id":204,"step":11,"type":"archimonstre","name":"Cramikaz le Suicidaire","base":"Craqueleur des Plaines"},{"id":205,"step":11,"type":"archimonstre","name":"Koko la Violente","base":"Kokom"},{"id":206,"step":11,"type":"archimonstre","name":"Chafrit le Barbare","base":"Chafer d'Élite"},{"id":207,"step":11,"type":"archimonstre","name":"Craquetou le Fissuré","base":"Craqueboule Poli"},{"id":208,"step":11,"type":"archimonstre","name":"Maître Champeur le Sabreur","base":"Maître Bolet"},{"id":209,"step":11,"type":"archimonstre","name":"Grenuche la Gentille","base":"Grenufar"},{"id":210,"step":11,"type":"archimonstre","name":"Kannibal le Lecteur","base":"Kanniboul Archer"},{"id":211,"step":11,"type":"archimonstre","name":"Kapota la Fraise","base":"Kanniboul Jav"},{"id":212,"step":12,"type":"archimonstre","name":"Kannémik le Maigre","base":"Kanniboul Sarbak"},{"id":213,"step":12,"type":"archimonstre","name":"Kannisterik le Forcené","base":"Kanniboul Thierry"},{"id":214,"step":12,"type":"archimonstre","name":"Sarkastik l'Incompris","base":"Sarkapwane"},{"id":215,"step":12,"type":"archimonstre","name":"Palmbytch la Bronzée","base":"Palmifleur Kouraçao"},{"id":216,"step":12,"type":"archimonstre","name":"Ratlbol l'Aigri","base":"Rat d'Égoutant"},{"id":217,"step":12,"type":"archimonstre","name":"Ougaould le Parasite","base":"Chafer Draugr"},{"id":218,"step":12,"type":"archimonstre","name":"Corboyard l'Enigmatique","base":"Corailleur"},{"id":219,"step":12,"type":"archimonstre","name":"Kwaké le Piraté","base":"Kwak de Vent"},{"id":220,"step":12,"type":"archimonstre","name":"Kwakwatique le Trempé","base":"Kwak de Glace"},{"id":221,"step":12,"type":"archimonstre","name":"Kwakamole l'Appétissant","base":"Kwak de Terre"},{"id":222,"step":12,"type":"archimonstre","name":"Kwakolak le Chocolaté","base":"Kwak de Flamme"},{"id":223,"step":12,"type":"archimonstre","name":"Porsalé le Râleur","base":"Porsalu"},{"id":224,"step":12,"type":"archimonstre","name":"Dragioli le Succulent","base":"Dragacé"},{"id":225,"step":12,"type":"archimonstre","name":"Vetaurine l'Énergisé","base":"Vétauran"},{"id":226,"step":12,"type":"archimonstre","name":"Moumoute la Douce","base":"Moumoule"},{"id":227,"step":12,"type":"archimonstre","name":"Parapadkouï l'Émasculé","base":"Parashukouï"},{"id":228,"step":12,"type":"archimonstre","name":"Serpistule le Purulent","base":"Serpiplume"},{"id":229,"step":12,"type":"archimonstre","name":"Bebetto l'Intellectuel","base":"Betto"},{"id":230,"step":12,"type":"archimonstre","name":"Akaka le Souillé","base":"Akakwa"},{"id":231,"step":12,"type":"archimonstre","name":"Rauligo le Sale","base":"Raul Mops"},{"id":232,"step":13,"type":"archimonstre","name":"Caboume l'Artilleur","base":"Canondorf"},{"id":233,"step":13,"type":"archimonstre","name":"Tilolo la Bien Moulée","base":"Lolojiki"},{"id":234,"step":13,"type":"archimonstre","name":"Nakuneuye le Borgne","base":"Nakunbra"},{"id":235,"step":13,"type":"archimonstre","name":"Chiendanlémin l'Illusionniste","base":"Chiendent"},{"id":236,"step":13,"type":"archimonstre","name":"Dragstayr le Fonceur","base":"Dragoeuf Calcaire"},{"id":237,"step":13,"type":"archimonstre","name":"Dragmoclaiss le Fataliste","base":"Dragoeuf Ardoise"},{"id":238,"step":13,"type":"archimonstre","name":"Dragkouine la Déguisée","base":"Dragoeuf Argile"},{"id":239,"step":13,"type":"archimonstre","name":"Dragnostik le Sceptique","base":"Dragoeuf Charbon"},{"id":240,"step":13,"type":"archimonstre","name":"Koamaembair le Coulant","base":"Koalak Coco"},{"id":241,"step":13,"type":"archimonstre","name":"Koakofrui le Confit","base":"Koalak Griotte"},{"id":242,"step":13,"type":"archimonstre","name":"Koaskette la Chapelière","base":"Koalak Indigo"},{"id":243,"step":13,"type":"archimonstre","name":"Koarmit la Batracienne","base":"Koalak Reinette"},{"id":244,"step":13,"type":"archimonstre","name":"Ratéhaifaim le Professeur","base":"Rat d'Hyoactif"},{"id":245,"step":13,"type":"archimonstre","name":"Sparoket le Lanceur","base":"Sparo"},{"id":246,"step":13,"type":"archimonstre","name":"Fanlabiz le Véloce","base":"Fantôme Apero"},{"id":247,"step":13,"type":"archimonstre","name":"Fandanleuil le Précis","base":"Fantôme aux Plates"},{"id":248,"step":13,"type":"archimonstre","name":"Fantoch le Pantin","base":"Fantôme Hicide"},{"id":249,"step":13,"type":"archimonstre","name":"Fantrask la Rêveuse","base":"Fantôme Égérie"},{"id":250,"step":13,"type":"archimonstre","name":"Barebourd le Comte","base":"Barbroussa"},{"id":251,"step":13,"type":"archimonstre","name":"Nerdeubeu le Flagellant","base":"Nerbe"},{"id":252,"step":14,"type":"archimonstre","name":"Crok le Beau","base":"Chef Crocodaille"},{"id":253,"step":14,"type":"archimonstre","name":"Toufou le Benêt","base":"Bitouf des Plaines"},{"id":254,"step":14,"type":"archimonstre","name":"Crathdogue le Cruel","base":"Craqueleur Poli"},{"id":255,"step":14,"type":"archimonstre","name":"Alhoui le Répondeur","base":"Alhyène"},{"id":256,"step":14,"type":"archimonstre","name":"Pantacour le Long","base":"Panthégros"},{"id":257,"step":14,"type":"archimonstre","name":"Orfélyre le Charmeur","base":"Orfélin"},{"id":258,"step":14,"type":"archimonstre","name":"Félyssion la Gourmande","base":"Félygiène"},{"id":259,"step":14,"type":"archimonstre","name":"Kanibière l'Encordée","base":"Kaniblou"},{"id":260,"step":14,"type":"archimonstre","name":"Kanasukr le Mielleux","base":"Kanigrou"},{"id":261,"step":14,"type":"archimonstre","name":"Mufguedin le Suprême","base":"Mufafah"},{"id":262,"step":14,"type":"archimonstre","name":"Muloufok l'Hilarant","base":"Mulou"},{"id":263,"step":14,"type":"archimonstre","name":"Bonpake le Chavireur","base":"Ishigro Pake"},{"id":264,"step":14,"type":"archimonstre","name":"Kido l'Âtre","base":"Kido"},{"id":265,"step":14,"type":"archimonstre","name":"Kilimanj'haro le Grimpeur","base":"Kilibriss"},{"id":266,"step":14,"type":"archimonstre","name":"Larvaloeil l'Émue","base":"Larve Champêtre"},{"id":267,"step":14,"type":"archimonstre","name":"Souristiti l'Immortalisée","base":"Souris Verte"},{"id":268,"step":14,"type":"archimonstre","name":"Bourde le Maladroit","base":"Bourdard"},{"id":269,"step":14,"type":"archimonstre","name":"Fouflay le Retombé","base":"Foufayteur"},{"id":270,"step":14,"type":"archimonstre","name":"Dragonienne l'Econome","base":"Dragueuse"},{"id":271,"step":14,"type":"archimonstre","name":"Guerrite le Veilleur","base":"Guerrier Koalak"},{"id":272,"step":15,"type":"archimonstre","name":"Lichangora l'Immaculée","base":"Lichangoro"},{"id":273,"step":15,"type":"archimonstre","name":"Craquecrac l'Endurant","base":"Craquelourd"},{"id":274,"step":15,"type":"archimonstre","name":"Warkolad l'Etreinte","base":"Warko Marron"},{"id":275,"step":15,"type":"archimonstre","name":"Inopenope le Négatif","base":"Ino-Naru"},{"id":276,"step":15,"type":"archimonstre","name":"Abrakanette l'Encapsulé","base":"Abraknyde Sombre"},{"id":277,"step":15,"type":"archimonstre","name":"Tétonée la Plantureuse","base":"Tétonuki"},{"id":278,"step":15,"type":"archimonstre","name":"Fossamoel le Juteux","base":"Fossoyeur Koalak"},{"id":279,"step":15,"type":"archimonstre","name":"Gloubibou le Gars","base":"Gloutovore"},{"id":280,"step":15,"type":"archimonstre","name":"Koasossyal le Psychopathe","base":"Koalak Forestier"},{"id":281,"step":15,"type":"archimonstre","name":"Pékeutar le Tireur","base":"Pékeualak"},{"id":282,"step":15,"type":"archimonstre","name":"Piradain le Pingre","base":"Piralak"},{"id":283,"step":15,"type":"archimonstre","name":"Abraklette le Fondant","base":"Abrakne Sombre"},{"id":284,"step":15,"type":"archimonstre","name":"Koamag'oel le Défiguré","base":"Chevaucheur Koalak"},{"id":285,"step":15,"type":"archimonstre","name":"Meuroup le Prêtre","base":"Meupette"},{"id":286,"step":15,"type":"archimonstre","name":"Rooroku l'Imposant","base":"Kurookin"},{"id":287,"step":15,"type":"archimonstre","name":"Dragdikal le Décisif","base":"Dragnarok"},{"id":288,"step":15,"type":"archimonstre","name":"Dragobert le Monarque","base":"Draguaindrop"},{"id":289,"step":15,"type":"archimonstre","name":"Diskord le Belliqueux","base":"Disciple Zoth"},{"id":290,"step":15,"type":"archimonstre","name":"Brouste l'Humiliant","base":"Brouture"},{"id":291,"step":15,"type":"archimonstre","name":"Bitoven le Musicien","base":"Bitouf Sombre"},{"id":292,"step":16,"type":"archimonstre","name":"Ecorfé la Vive","base":"Fécorce"},{"id":293,"step":16,"type":"archimonstre","name":"Floanna la Blonde","base":"Floribonde"},{"id":294,"step":16,"type":"archimonstre","name":"Koalvissie le Chauve","base":"Koalak Sanguin"},{"id":295,"step":16,"type":"archimonstre","name":"Koalaboi le Calorifère","base":"Koalak Farouche"},{"id":296,"step":16,"type":"archimonstre","name":"Mamakomou l'Âge","base":"Mama Koalak"},{"id":297,"step":16,"type":"archimonstre","name":"Momikonos la Bandelette","base":"Momie Koalak"},{"id":298,"step":16,"type":"archimonstre","name":"Bouliver le Géant","base":"Bourbassingue"},{"id":299,"step":16,"type":"archimonstre","name":"Wara l'Amer","base":"Warko Violet"},{"id":300,"step":16,"type":"archimonstre","name":"Gastroth la Contagieuse","base":"Gamine Zoth"},{"id":301,"step":16,"type":"archimonstre","name":"Guerumoth le Collant","base":"Guerrier Zoth"},{"id":302,"step":16,"type":"archimonstre","name":"Tourbiket le Virevoletant","base":"Tourbassingue"},{"id":303,"step":16,"type":"archimonstre","name":"Abrakine le Sombre","base":"Abrakleur Sombre"},{"id":304,"step":16,"type":"archimonstre","name":"Dragminster le Magicien","base":"Dragoss Calcaire"},{"id":305,"step":16,"type":"archimonstre","name":"Drageaufol la Joyeuse","base":"Dragoss Ardoise"},{"id":306,"step":16,"type":"archimonstre","name":"Dragtarus le Bellâtre","base":"Dragoss Argile"},{"id":307,"step":16,"type":"archimonstre","name":"Draquetteur le Voleur","base":"Dragoss Charbon"},{"id":308,"step":16,"type":"archimonstre","name":"Fangshui la Dysorthographiée","base":"Fangshu"},{"id":309,"step":16,"type":"archimonstre","name":"Pétarfoutu le Mouillé","base":"Pétartifoux"},{"id":310,"step":16,"type":"archimonstre","name":"Drakolage le Tentateur","base":"Drakoalak"},{"id":311,"step":16,"type":"archimonstre","name":"Faufoll la Joyeuse","base":"Fauchalak"},{"id":312,"step":17,"type":"archimonstre","name":"Bigbadaboum l'Élémentaire","base":"Boumbardier"},{"id":313,"step":17,"type":"archimonstre","name":"Maître Koantik le Théoricien","base":"Maître Koalak"},{"id":314,"step":17,"type":"archimonstre","name":"Poolopo la Traditionnelle","base":"Poolay"},{"id":315,"step":17,"type":"archimonstre","name":"Trooyé l'Oxydé","base":"Trollaraj"},{"id":316,"step":17,"type":"archimonstre","name":"Seripoth l'Ennemi","base":"Sergent Zoth"},{"id":317,"step":17,"type":"archimonstre","name":"Kaskapointhe la Couverte","base":"Kaskargo"},{"id":318,"step":17,"type":"archimonstre","name":"Toutouf le Velu","base":"Bitouf Aérien"},{"id":319,"step":17,"type":"archimonstre","name":"Abrinos le Clair","base":"Abrakleur Clair"},{"id":320,"step":17,"type":"archimonstre","name":"Don Kizoth l'Obstiné","base":"Maître Zoth"},{"id":321,"step":17,"type":"archimonstre","name":"Chamiléro le Malchanceux","base":"Champaknyde"},{"id":322,"step":17,"type":"archimonstre","name":"Crachefouxtre le Surpris","base":"Crachefoux"},{"id":323,"step":17,"type":"archimonstre","name":"Tromplamor le Survivant","base":"Tromperelle"},{"id":324,"step":17,"type":"archimonstre","name":"Chamoute le Duveteux","base":"Champodonte"},{"id":325,"step":17,"type":"archimonstre","name":"Tsucékoi la Colporteuse","base":"Tsukinochi"},{"id":326,"step":17,"type":"archimonstre","name":"Tambouille le Gastronome","base":"Tambouraï"},{"id":327,"step":17,"type":"archimonstre","name":"Champoul l'Illuminé","base":"Champbis"},{"id":328,"step":17,"type":"archimonstre","name":"Champolyon le Polyglotte","base":"Champ À Gnons"},{"id":329,"step":17,"type":"archimonstre","name":"Champmé le Méchant","base":"Champmane"},{"id":330,"step":17,"type":"archimonstre","name":"Onabuémangé la Rassasiée","base":"Onabu-Geisha"},{"id":331,"step":17,"type":"archimonstre","name":"Jiankor le Radoteur","base":"Jiangshi-Nobi"},{"id":332,"step":18,"type":"archimonstre","name":"Tronquette la Réduite","base":"Rouquette"},{"id":333,"step":18,"type":"archimonstre","name":"Roy le Merlin","base":"Roissingue"},{"id":334,"step":18,"type":"archimonstre","name":"Madgang le Docteur","base":"Madura"},{"id":335,"step":18,"type":"archimonstre","name":"Bakaglace le Congelé","base":"Bakazako"},{"id":336,"step":18,"type":"archimonstre","name":"Kaonucléair l'Instable","base":"Kaonashi"},{"id":337,"step":18,"type":"archimonstre","name":"Tsumani l'Inondeur","base":"Tsume-Bozu"},{"id":338,"step":19,"type":"boss","name":"Kralamoure Géant","base":""}]
+<script id="monster-data" type="text/plain">
+1|Mob l'Éponge|
+1|Bouftou Royal|
+1|Tournesol Affamé|
+1|Gelée Royale Bleuet|
+1|Gelée Royale Menthe|
+1|Shin Larve|
+1|Rakoopeur|
+1|Scarabosse Doré|
+1|Bworkette|
+1|Dragon Cochon|
+1|Choudini|
+1|Reine Nyée|
+1|Tofu Royal|
+1|Blop Coco Royal|
+1|Blop Griotte Royal|
+1|Blop Indigo Royal|
+1|Blop Reinette Royal|
+1|Rat Noir|
+1|Rat Blanc|
+1|Minotoror|
+2|Hell Mina|
+2|Tanukouï San|
+2|Craqueleur Légendaire|
+2|Damadrya|
+2|Gelée Royale Fraise|
+2|Maître Corbac|
+2|Blop Multicolore Royal|
+2|Corailleur Magistral|
+2|Gourlo le Terrible|
+2|Meulou|
+2|Wa Wabbit|
+2|Moon|
+2|Koulosse|
+2|Skeunk|
+2|Abraknyde ancestral|
+2|Hanshi|
+2|Tynril Ahuri|
+2|Tynril Consterné|
+2|Tynril Déconcerté|
+2|Tynril Perfide|
+3|Gelée Royale Citron|
+3|Founoroshi|
+3|Bworker|
+3|Sphincter Cell|
+3|Minotot|
+3|Silf le Rasboul Majeur|
+3|Crocabulia|
+3|Haute Truche|
+3|Chêne mou|
+3|Ougah|
+3|Kimbo|
+4|Sousourizoto le Collant|Souris Grise
+4|Mosketère le Dévoué|Moskito
+4|Arakule la Revancharde|Arakne
+4|Boudalf le Blanc|Boufton Blanc
+4|Boulgourvil le Lointain|Boufton Noir
+4|Tofumanchou l'Empereur|Tofu Maléfique
+4|Arachitik la Souffreteuse|Arakne Malade
+4|Pioustone le Problème|Piou Bleu
+4|Pioulbrineur le Mercenaire|Piou Jaune
+4|Pioulette la Coquine|Piou Rouge
+4|Pioukas la Plante|Piou Vert
+4|Pioussokrim le Délétère|Piou Violet
+4|Craraboss le Féérique|Crabe
+4|Larvonika l'Instrument|Larve Bleue
+4|Pioufe la Maquillée|Piou Rose
+4|Tofuldebeu l'Explosif|Tofu
+4|Tofurapin le Pétri|Tofu Malade
+4|Chamchie le Difficile|Champ Champ
+4|Pissdane l'Insipide|Pissenlit Diabolique
+4|Araknay la Galopante|Arakne Agressive
+5|Bandapar l'exclu|Bandit Manchot
+5|Roz la Magicienne|Rose Démoniaque
+5|Gelanal le Huileux|Gelée Bleue
+5|Kwoanneur le Frimeur|Kwoan
+5|Larchimaide la poussée|Larve Verte
+5|Boufdégou le Refoulant|Bouftou
+5|Kolforthe l'Indécollable|Kolérat
+5|Geloliaine l'Aérien|Gelée Menthe
+5|Larvapstrè le Subjectif|Larve Orange
+5|Serpistol l'Illustre|Serpentin
+5|Tiwa'Missou le Gateux|Black Tiwabbit
+5|Boudur le Raide|Boulanger sombre
+5|Tiwalpé le Dévêtu|Tiwabbit
+5|Tiwoflan le Lâche|Tiwabbit Kiaffin
+5|Tour le Vice|Tournesol Sauvage
+5|Bandson le Tonitruant|Bandit du Clan des Roublards
+5|Gobstiniais le Têtu|Gobet
+5|Nodkoku le Trahi|Nodkoko
+5|Tikosto le Mousse|Tikoko
+5|Trukul le Lent|Trukikol
+6|Sangria le Fruité|Sanglier
+6|Champayr le Disjoncté|Champa Vert
+6|Étoilette la Bouchée|Étoile de la Mer d'Asse
+6|Vampunor le Glacial|Vampire
+6|Bilvoezé le Bonimenteur|Biblop Coco
+6|Bi le Partageur|Biblop Griotte
+6|Bistou le Quêteur|Biblop Indigo
+6|Bistou le Rieur|Biblop Reinette
+6|Chevaustine le Reconstruit|Gob-Trotteur
+6|Milipussien le Géant|Milirat Strubien
+6|Boostif l'Affamé|Boo
+6|Preskapwal le Tendancieux|Prespic
+6|Chonstip la Passagère|Cochon de Lait
+6|Torthur la Lutte|Tortue Jaune
+6|Wabbitud le Constant|Wabbit
+6|Porfavor le Quémandeur|Berger Porkass
+6|Robiolego l'Assemblé|Robionicle
+6|Bouflet le Puéril|Chef de Guerre Bouftou
+6|Cromikay le Néophyte|Croc Gland
+6|Tortenssia la Fleurie|Tortue Bleue
+7|Bambouské le Camouflé|Bambouto
+7|Corpat le Vampire|Corbac
+7|Pichduitre le Totem|Pichon Blanc
+7|Pichdourse le Puissant|Pichon Bleu
+7|Pichtoire l'Erudit|Pichon Orange
+7|Pichakoté le Dégoûtant|Pichon Vert
+7|Tortorak le Cornu|Tortue Rouge
+7|Maître Amboat le Moqueur|Maître Vampire
+7|Robocoop l'Échangé|Robot Fléau
+7|Fourapin le Chaud|Fourbasse
+7|Milipatte la Griffe|Milimulou
+7|Minoskour le Sauveur|Minoskito
+7|Neufedur le Flottant|Noeul
+7|Tortilleur le Coulé|Tortue Verte
+7|Bwormage le Respectueux|Bwork Mage
+7|Wagnagnah le Sanglant|Black Wabbit
+7|Crognan le Barbare|Crowneille
+7|Rostensyl la Cuisinière|Rose Obscure
+7|Minsinistre l'Elu|Mineur Sombre
+7|Barchwork le Multicolore|Bwork Archer
+8|Champayt l'Odorant|Champa Bleu
+8|Chamflay le Ballonné|Champa Marron
+8|Chamdblé le Cultivé|Champa Rouge
+8|Craquetuss le Piquant|Craqueboule
+8|Mandalo l'Aqueuse|Mandrine
+8|Mallopiée l'Épineuse|Malle Outillée
+8|Garsim le Mort|Gargrouille
+8|Draglida la Disparue|Dragodinde Amande Sauvage
+8|Gelaviv le Glaçon|Gelée Rouge
+8|Watdogue le Bien Nommé|Wabbit Squelette
+8|Chafalfer l'Optimiste|Chafer Invisible
+8|Crakmitaine le Faucheur|Craqueleur
+8|Bworkasse le Dégoûtant|Bwork
+8|Abrakroc l'Edenté|Abraknyde
+8|Krapahut le Randonneur|Kraméléhon
+8|Scapé l'Epée|Scarafeuille Blanc
+8|Scarfayss le Balafré|Scarafeuille Bleu
+8|Scarouarze l'Epopée|Scarafeuille Rouge
+8|Scaramel le Fondant|Scarafeuille Vert
+8|Ribibi le Cher|Rib
+9|Blorie l'Assourdissante|Blop Coco
+9|Blordur l'Infect|Blop Griotte
+9|Bloporte le Veule|Blop Indigo
+9|Blof l'Apathique|Blop Reinette
+9|Boombata le Garde|Boomba
+9|Farlon l'Enfant|Cochon de farle
+9|Scaratyn l'Huître|Scaratos
+9|Chaffoin le Sournois|Chafer Fantassin
+9|Larvomatik le Propre|Larve Jaune
+9|Tronkoneuz la Tranchante|Tronknyde
+9|Abrakadnuzar|Abrakne
+9|Chafemal le Bagarreur|Chafer
+9|Crolnareff l'Exilé|Crocodaille
+9|Radoutable le Craint|Scélérat Strubien
+9|Scorpitène l'Enflammé|Scorbute
+9|Dragnoute l'Irascible|Dragodinde Rousse Sauvage
+9|Bulsavon le Gonflé|Bulbuisson
+9|Crustterus l'Organique|Crustorail Kouraçao
+9|Crustensyl le Pragmatique|Crustorail Malibout
+9|Cruskof le Rustre|Crustorail Morito
+10|Crusmeyer le Pervers|Crustorail Passaoh
+10|Forboyar l'Enigmatique|Forgeron Sombre
+10|Floriste la Cannibale|Floristile
+10|Arabord la Cruche|Arakne Majeure
+10|Grandilok le Clameur|Grand Pa Wabbit
+10|Wokènrôl le Danseur|Wo Wabbit
+10|Cavordemal le Sorcier|Cavalier Porkass
+10|Aboudbra le Porteur|Aboub
+10|Ameur la Laide|Amlub
+10|Codenlgaz le Problème|Codem
+10|Ginsenk le Stimulant|Gink
+10|Kiroyal le Sirupeux|Kirevam
+10|Let le Rond|Let Emoliug
+10|Nelvin le Boulet|Negbib
+10|Nipulnislip l'Exhibitionniste|Nipul
+10|Osuxion le Vampirique|Osurc
+10|Susbewl l'Hypocrite|Susej
+10|Koktèle le Secoué|Kokoko
+10|Chafmarcel le Fêtard|Chafer Archer
+10|Chalan le Commerçant|Chafer Lancier
+11|Ramitant le Dilettante|Ramane d'Égoutant
+11|Doktopuss le Maléfique|Dok Alako
+11|Germinol l'Indigent|Gamino
+11|Koalastrof la Naturelle|Koalak Immature
+11|Ouature la Mobile|La Ouassingue
+11|Ouassébo l'Esthète|Le Ouassingue
+11|Ouashouash l'Exubérant|Le Ouassingue Entourbé
+11|Palmito le Menteur|Palmifleur Malibout
+11|Palmiche le Serein|Palmifleur Morito
+11|Palmiflette le Convivial|Palmifleur Passaoh
+11|Sampi l'Eternel|Sanglier des Plaines
+11|Abrakildas le Vénérable|Abraknyde Vénérable
+11|Cramikaz le Suicidaire|Craqueleur des Plaines
+11|Koko la Violente|Kokom
+11|Chafrit le Barbare|Chafer d'Élite
+11|Craquetou le Fissuré|Craqueboule Poli
+11|Maître Champeur le Sabreur|Maître Bolet
+11|Grenuche la Gentille|Grenufar
+11|Kannibal le Lecteur|Kanniboul Archer
+11|Kapota la Fraise|Kanniboul Jav
+12|Kannémik le Maigre|Kanniboul Sarbak
+12|Kannisterik le Forcené|Kanniboul Thierry
+12|Sarkastik l'Incompris|Sarkapwane
+12|Palmbytch la Bronzée|Palmifleur Kouraçao
+12|Ratlbol l'Aigri|Rat d'Égoutant
+12|Ougaould le Parasite|Chafer Draugr
+12|Corboyard l'Enigmatique|Corailleur
+12|Kwaké le Piraté|Kwak de Vent
+12|Kwakwatique le Trempé|Kwak de Glace
+12|Kwakamole l'Appétissant|Kwak de Terre
+12|Kwakolak le Chocolaté|Kwak de Flamme
+12|Porsalé le Râleur|Porsalu
+12|Dragioli le Succulent|Dragacé
+12|Vetaurine l'Énergisé|Vétauran
+12|Moumoute la Douce|Moumoule
+12|Parapadkouï l'Émasculé|Parashukouï
+12|Serpistule le Purulent|Serpiplume
+12|Bebetto l'Intellectuel|Betto
+12|Akaka le Souillé|Akakwa
+12|Rauligo le Sale|Raul Mops
+13|Caboume l'Artilleur|Canondorf
+13|Tilolo la Bien Moulée|Lolojiki
+13|Nakuneuye le Borgne|Nakunbra
+13|Chiendanlémin l'Illusionniste|Chiendent
+13|Dragstayr le Fonceur|Dragoeuf Calcaire
+13|Dragmoclaiss le Fataliste|Dragoeuf Ardoise
+13|Dragkouine la Déguisée|Dragoeuf Argile
+13|Dragnostik le Sceptique|Dragoeuf Charbon
+13|Koamaembair le Coulant|Koalak Coco
+13|Koakofrui le Confit|Koalak Griotte
+13|Koaskette la Chapelière|Koalak Indigo
+13|Koarmit la Batracienne|Koalak Reinette
+13|Ratéhaifaim le Professeur|Rat d'Hyoactif
+13|Sparoket le Lanceur|Sparo
+13|Fanlabiz le Véloce|Fantôme Apero
+13|Fandanleuil le Précis|Fantôme aux Plates
+13|Fantoch le Pantin|Fantôme Hicide
+13|Fantrask la Rêveuse|Fantôme Égérie
+13|Barebourd le Comte|Barbroussa
+13|Nerdeubeu le Flagellant|Nerbe
+14|Crok le Beau|Chef Crocodaille
+14|Toufou le Benêt|Bitouf des Plaines
+14|Crathdogue le Cruel|Craqueleur Poli
+14|Alhoui le Répondeur|Alhyène
+14|Pantacour le Long|Panthégros
+14|Orfélyre le Charmeur|Orfélin
+14|Félyssion la Gourmande|Félygiène
+14|Kanibière l'Encordée|Kaniblou
+14|Kanasukr le Mielleux|Kanigrou
+14|Mufguedin le Suprême|Mufafah
+14|Muloufok l'Hilarant|Mulou
+14|Bonpake le Chavireur|Ishigro Pake
+14|Kido l'Âtre|Kido
+14|Kilimanj'haro le Grimpeur|Kilibriss
+14|Larvaloeil l'Émue|Larve Champêtre
+14|Souristiti l'Immortalisée|Souris Verte
+14|Bourde le Maladroit|Bourdard
+14|Fouflay le Retombé|Foufayteur
+14|Dragonienne l'Econome|Dragueuse
+14|Guerrite le Veilleur|Guerrier Koalak
+15|Lichangora l'Immaculée|Lichangoro
+15|Craquecrac l'Endurant|Craquelourd
+15|Warkolad l'Etreinte|Warko Marron
+15|Inopenope le Négatif|Ino-Naru
+15|Abrakanette l'Encapsulé|Abraknyde Sombre
+15|Tétonée la Plantureuse|Tétonuki
+15|Fossamoel le Juteux|Fossoyeur Koalak
+15|Gloubibou le Gars|Gloutovore
+15|Koasossyal le Psychopathe|Koalak Forestier
+15|Pékeutar le Tireur|Pékeualak
+15|Piradain le Pingre|Piralak
+15|Abraklette le Fondant|Abrakne Sombre
+15|Koamag'oel le Défiguré|Chevaucheur Koalak
+15|Meuroup le Prêtre|Meupette
+15|Rooroku l'Imposant|Kurookin
+15|Dragdikal le Décisif|Dragnarok
+15|Dragobert le Monarque|Draguaindrop
+15|Diskord le Belliqueux|Disciple Zoth
+15|Brouste l'Humiliant|Brouture
+15|Bitoven le Musicien|Bitouf Sombre
+16|Ecorfé la Vive|Fécorce
+16|Floanna la Blonde|Floribonde
+16|Koalvissie le Chauve|Koalak Sanguin
+16|Koalaboi le Calorifère|Koalak Farouche
+16|Mamakomou l'Âge|Mama Koalak
+16|Momikonos la Bandelette|Momie Koalak
+16|Bouliver le Géant|Bourbassingue
+16|Wara l'Amer|Warko Violet
+16|Gastroth la Contagieuse|Gamine Zoth
+16|Guerumoth le Collant|Guerrier Zoth
+16|Tourbiket le Virevoletant|Tourbassingue
+16|Abrakine le Sombre|Abrakleur Sombre
+16|Dragminster le Magicien|Dragoss Calcaire
+16|Drageaufol la Joyeuse|Dragoss Ardoise
+16|Dragtarus le Bellâtre|Dragoss Argile
+16|Draquetteur le Voleur|Dragoss Charbon
+16|Fangshui la Dysorthographiée|Fangshu
+16|Pétarfoutu le Mouillé|Pétartifoux
+16|Drakolage le Tentateur|Drakoalak
+16|Faufoll la Joyeuse|Fauchalak
+17|Bigbadaboum l'Élémentaire|Boumbardier
+17|Maître Koantik le Théoricien|Maître Koalak
+17|Poolopo la Traditionnelle|Poolay
+17|Trooyé l'Oxydé|Trollaraj
+17|Seripoth l'Ennemi|Sergent Zoth
+17|Kaskapointhe la Couverte|Kaskargo
+17|Toutouf le Velu|Bitouf Aérien
+17|Abrinos le Clair|Abrakleur Clair
+17|Don Kizoth l'Obstiné|Maître Zoth
+17|Chamiléro le Malchanceux|Champaknyde
+17|Crachefouxtre le Surpris|Crachefoux
+17|Tromplamor le Survivant|Tromperelle
+17|Chamoute le Duveteux|Champodonte
+17|Tsucékoi la Colporteuse|Tsukinochi
+17|Tambouille le Gastronome|Tambouraï
+17|Champoul l'Illuminé|Champbis
+17|Champolyon le Polyglotte|Champ À Gnons
+17|Champmé le Méchant|Champmane
+17|Onabuémangé la Rassasiée|Onabu-Geisha
+17|Jiankor le Radoteur|Jiangshi-Nobi
+18|Tronquette la Réduite|Rouquette
+18|Roy le Merlin|Roissingue
+18|Madgang le Docteur|Madura
+18|Bakaglace le Congelé|Bakazako
+18|Kaonucléair l'Instable|Kaonashi
+18|Tsumani l'Inondeur|Tsume-Bozu
+19|Kralamoure Géant|
 </script>
 <script>(function () {
   "use strict";
 
-  var DATA = JSON.parse(document.getElementById("monster-data").textContent);
-  var STORAGE_KEY = "eternelle_moisson_progress_v2";
+  var DATA = document.getElementById("monster-data").textContent
+    .split("\n")
+    .map(function (l) { return l.trim(); })
+    .filter(Boolean)
+    .map(function (line, i) {
+      var p = line.split("|");
+      var step = parseInt(p[0], 10);
+      return {
+        id: i + 1,
+        step: step,
+        type: (step <= 3 || step === 19) ? "boss" : "archimonstre",
+        name: p[1],
+        base: p[2] || ""
+      };
+    });
 
+  var STORAGE_KEY = "eternelle_moisson_progress_v2";
   var TYPE_LABELS = { boss: "Boss", archimonstre: "Archimonstre" };
 
   function loadProgress() {
@@ -588,12 +1000,7 @@ footer a{color:var(--sage);}
     return progress[key];
   }
 
-  var state = {
-    search: "",
-    type: "all",
-    step: "all",
-    hideDone: false
-  };
+  var state = { search: "", type: "all", step: "all", hideDone: false };
 
   var steps = [];
   (function buildSteps() {
@@ -660,7 +1067,6 @@ footer a{color:var(--sage);}
   var stepFilterSelect = document.getElementById("stepFilter");
 
   function stepDominantType(stepObj) {
-    if (stepObj.types.boss && stepObj.types.archimonstre) return "boss";
     if (stepObj.types.boss) return "boss";
     return "archimonstre";
   }
@@ -686,11 +1092,7 @@ footer a{color:var(--sage);}
         '<div class="mini-track"><div class="mini-fill" style="width:' + pct + '%"></div></div>';
 
       card.addEventListener("click", function () {
-        if (state.step === String(s.step)) {
-          state.step = "all";
-        } else {
-          state.step = String(s.step);
-        }
+        state.step = (state.step === String(s.step)) ? "all" : String(s.step);
         stepFilterSelect.value = state.step;
         renderAll();
       });
@@ -737,9 +1139,7 @@ footer a{color:var(--sage);}
     emptyState.style.display = "none";
 
     var frag = document.createDocumentFragment();
-    filtered.forEach(function (m) {
-      frag.appendChild(buildRow(m));
-    });
+    filtered.forEach(function (m) { frag.appendChild(buildRow(m)); });
     tableBody.innerHTML = "";
     tableBody.appendChild(frag);
   }
@@ -747,7 +1147,7 @@ footer a{color:var(--sage);}
   function buildRow(m) {
     var entry = getEntry(m.id);
     var tr = document.createElement("tr");
-    tr.className = entry.captured ? "captured" : "";
+    tr.className = (entry.captured ? "captured " : "") + (m.step % 2 === 0 ? "step-even" : "step-odd");
     tr.setAttribute("data-id", m.id);
 
     var tdChk = document.createElement("td");
