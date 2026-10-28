@@ -49,6 +49,7 @@
     var TYPE_LABELS = { boss: "Boss", archimonstre: "Archimonstre" };
     var LANGS = ["fr", "en", "es", "de", "pt"];
     var LOCALES = { fr: "fr", en: "en", es: "es", de: "de", pt: "pt" };
+    var OG_LOCALES = { fr: "fr_FR", en: "en_US", es: "es_ES", de: "de_DE", pt: "pt_PT" };
     var savedLang = storage.getItem("eternelle_moisson_lang") || "fr";
     var currentLang = LANGS.indexOf(savedLang) !== -1 ? savedLang : "fr";
 
@@ -200,9 +201,22 @@
         }
     }
 
+    function setMeta(selector, value) {
+        var el = document.querySelector(selector);
+        if (el) {
+            el.setAttribute("content", value);
+        }
+    }
+
     function applyLanguage() {
         document.documentElement.lang = currentLang;
-        document.title = tr("title") + " - " + tr("ochre");
+        document.title = tr("pageTitle");
+        setMeta('meta[name="description"]', tr("metaDescription"));
+        setMeta('meta[property="og:title"]', tr("pageTitle"));
+        setMeta('meta[property="og:description"]', tr("metaDescription"));
+        setMeta('meta[name="twitter:title"]', tr("pageTitle"));
+        setMeta('meta[name="twitter:description"]', tr("metaDescription"));
+        setMeta('meta[property="og:locale"]', OG_LOCALES[currentLang]);
         document.querySelectorAll(".language-switch [data-lang]").forEach(function (b) {
             b.classList.toggle("active", b.getAttribute("data-lang") === currentLang);
         });
@@ -669,7 +683,7 @@
         var url = URL.createObjectURL(blob);
         var a = document.createElement("a");
         a.href = url;
-        a.download = "eternelle-moisson-progression.json";
+        a.download = "ocredex-progression.json";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

@@ -1,8 +1,8 @@
 window.__I18N = window.__I18N || {};
 window.__I18N.es = {
  "ui": {
-  "title": "La eterna cosecha",
-  "subtitle": "Sigue tu progreso en la captura de almas para Otomai, paso a paso, hasta el Dofus Ocre. Tu progreso se guarda automáticamente en el navegador.",
+  "title": "OcreDex",
+  "subtitle": "Sigue tu progreso en la misión La eterna cosecha: la captura de almas para Otomai, paso a paso, hasta el Dofus Ocre. Tu progreso se guarda automáticamente en el navegador.",
   "bosses": "Jefes de mazmorra",
   "archi": "Archimonstruos",
   "total": "Progreso total",
@@ -45,10 +45,11 @@ window.__I18N.es = {
   "stepWord": "Paso",
   "finalStep": "Prueba final",
   "importInvalid": "El archivo importado no es válido.",
-  "ochre": "Dofus Ocre",
   "footerQuest": "Sitio creado para la misión del Ocre de Dofus 3.6.",
   "langAria": "Idioma",
-  "titleHtml": "<em>La eterna cosecha</em>"
+  "titleHtml": "Ocre<em>Dex</em>",
+  "pageTitle": "OcreDex — Misión La eterna cosecha, Dofus Ocre",
+  "metaDescription": "OcreDex: sigue tu progreso en la misión La eterna cosecha y la captura de almas de Otomai hasta el Dofus Ocre. Jefes, archimonstruos, pasos y zonas."
  },
  "names": {
   "Mob l'Éponge": "Mob Lasponja",

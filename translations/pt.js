@@ -1,8 +1,8 @@
 window.__I18N = window.__I18N || {};
 window.__I18N.pt = {
  "ui": {
-  "title": "Colheita Eterna",
-  "subtitle": "Acompanha o teu progresso na captura de almas para Otomai, passo a passo, até ao Dofus Ocre. O progresso é guardado automaticamente no navegador.",
+  "title": "OcreDex",
+  "subtitle": "Acompanha o teu progresso na missão Colheita Eterna: a captura de almas para Otomai, passo a passo, até ao Dofus Ocre. O progresso é guardado automaticamente no navegador.",
   "bosses": "Chefes de masmorra",
   "archi": "Arqui-monstros",
   "total": "Progresso geral",
@@ -45,10 +45,11 @@ window.__I18N.pt = {
   "stepWord": "Etapa",
   "finalStep": "Prova final",
   "importInvalid": "O ficheiro importado não é válido.",
-  "ochre": "Dofus Ocre",
   "footerQuest": "Site criado para a missão Ocre do Dofus 3.6.",
   "langAria": "Idioma",
-  "titleHtml": "<em>Colheita Eterna</em>"
+  "titleHtml": "Ocre<em>Dex</em>",
+  "pageTitle": "OcreDex — Missão Colheita Eterna, Dofus Ocre",
+  "metaDescription": "OcreDex: acompanha o teu progresso na missão Colheita Eterna e na captura de almas de Otomai até ao Dofus Ocre. Chefes, arqui-monstros, etapas e áreas."
  },
  "names": {
   "Mob l'Éponge": "Mob Esponja",

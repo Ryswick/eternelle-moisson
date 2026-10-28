@@ -1,8 +1,8 @@
 window.__I18N = window.__I18N || {};
 window.__I18N.fr = {
  "ui": {
-  "title": "L'Éternelle Moisson",
-  "subtitle": "Suivez votre progression dans la capture des âmes pour Otomaï, étape par étape, jusqu'au Dofus Ocre. Votre avancée est sauvegardée automatiquement dans le navigateur.",
+  "title": "OcreDex",
+  "subtitle": "Suivez votre progression dans la quête L'Éternelle Moisson : la capture des âmes pour Otomaï, étape par étape, jusqu'au Dofus Ocre. Votre avancée est sauvegardée automatiquement dans le navigateur.",
   "bosses": "Boss de donjon",
   "archi": "Archimonstres",
   "total": "Progression totale",
@@ -45,9 +45,10 @@ window.__I18N.fr = {
   "stepWord": "Étape",
   "finalStep": "Ultime épreuve",
   "importInvalid": "Le fichier importé n'est pas valide.",
-  "ochre": "Dofus Ocre",
   "footerQuest": "Site réalisé pour la quête Ocre de Dofus 3.6.",
   "langAria": "Langue",
-  "titleHtml": "L'Éternelle <em>Moisson</em>"
+  "titleHtml": "Ocre<em>Dex</em>",
+  "pageTitle": "OcreDex — Quête L'Éternelle Moisson, Dofus Ocre",
+  "metaDescription": "OcreDex : suivez votre progression dans la quête L'Éternelle Moisson et la capture des âmes d'Otomaï jusqu'au Dofus Ocre. Boss, archimonstres, étapes et zones."
  }
 };

@@ -1,8 +1,8 @@
 window.__I18N = window.__I18N || {};
 window.__I18N.de = {
  "ui": {
-  "title": "Ewige Ernte",
-  "subtitle": "Verfolge deinen Seelenfang-Fortschritt für Otomai Schritt für Schritt bis zum Ocker-Dofus. Dein Fortschritt wird automatisch im Browser gespeichert.",
+  "title": "OcreDex",
+  "subtitle": "Verfolge deinen Fortschritt in der Quest Die Ewige Ernte: der Seelenfang für Otomai, Schritt für Schritt bis zum Ocker-Dofus. Dein Fortschritt wird automatisch im Browser gespeichert.",
   "bosses": "Dungeon-Bosse",
   "archi": "Archimonster",
   "total": "Gesamtfortschritt",
@@ -45,10 +45,11 @@ window.__I18N.de = {
   "stepWord": "Schritt",
   "finalStep": "Letzte Prüfung",
   "importInvalid": "Die importierte Datei ist ungültig.",
-  "ochre": "Ocker-Dofus",
   "footerQuest": "Seite erstellt für die Ocker-Quest von Dofus 3.6.",
   "langAria": "Sprache",
-  "titleHtml": "<em>Ewige Ernte</em>"
+  "titleHtml": "Ocre<em>Dex</em>",
+  "pageTitle": "OcreDex — Quest Die Ewige Ernte, Ocker-Dofus",
+  "metaDescription": "OcreDex: Verfolge deinen Fortschritt in der Quest Die Ewige Ernte und beim Seelenfang für Otomai bis zum Ocker-Dofus. Bosse, Archimonster, Schritte und Gebiete."
  },
  "names": {
   "Mob l'Éponge": "Spongemob Schwammtopf",

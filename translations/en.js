@@ -1,8 +1,8 @@
 window.__I18N = window.__I18N || {};
 window.__I18N.en = {
  "ui": {
-  "title": "Eternal Harvest",
-  "subtitle": "Track your soul-capturing progress for Otomai, step by step, all the way to the Ochre Dofus. Your progress is automatically saved in your browser.",
+  "title": "OcreDex",
+  "subtitle": "Track your progress in the Eternal Harvest quest: capturing souls for Otomai, step by step, all the way to the Ochre Dofus. Your progress is automatically saved in your browser.",
   "bosses": "Dungeon bosses",
   "archi": "Archmonsters",
   "total": "Overall progress",
@@ -45,10 +45,11 @@ window.__I18N.en = {
   "stepWord": "Step",
   "finalStep": "Final trial",
   "importInvalid": "The imported file is not valid.",
-  "ochre": "Ochre Dofus",
   "footerQuest": "Site made for the Ochre quest of Dofus 3.6.",
   "langAria": "Language",
-  "titleHtml": "<em>Eternal Harvest</em>"
+  "titleHtml": "Ocre<em>Dex</em>",
+  "pageTitle": "OcreDex — Eternal Harvest quest, Ochre Dofus",
+  "metaDescription": "OcreDex: track your progress in the Eternal Harvest quest and the soul capture for Otomai, all the way to the Ochre Dofus. Bosses, archmonsters, steps and areas."
  },
  "names": {
   "Mob l'Éponge": "Sponge Mob",
