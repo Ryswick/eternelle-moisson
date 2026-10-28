@@ -1,4 +1,4 @@
-# L'Éternelle Moisson: Dofus Tracker
+# OcreDex: Dofus Tracker
 A little one-page tracker to make the Eternal Harvest quest easier to follow, one step at a time, all the way to the Ochre Dofus.
 
 The goal is simple: spend less time keeping notes and more time playing.
