@@ -251,7 +251,7 @@
             ["bestiaryTitle", "bestiary"],
         ].forEach(function (pair) {
             var el = document.getElementById(pair[0]);
-            if (el) el.innerHTML = '<span class="rune">◆</span> ' + tr(pair[1]);
+            if (el) el.innerHTML = tr(pair[1]);
         });
         var si = document.getElementById("searchInput");
         if (si) si.placeholder = tr("search");
@@ -548,6 +548,7 @@
 
     function buildRow(m) {
         var entry = getEntry(m.id);
+        var heads = document.querySelectorAll("thead th");
         var row = document.createElement("tr");
         row.className =
             (entry.captured ? "captured " : "") + (m.step % 2 === 0 ? "step-even" : "step-odd");
@@ -584,10 +585,12 @@
         row.appendChild(tdType);
         var tdStep = document.createElement("td");
         tdStep.className = "step-cell";
+        tdStep.setAttribute("data-label", heads[3].textContent);
         tdStep.textContent = m.step === 19 ? "19 (" + tr("final") + ")" : String(m.step);
         row.appendChild(tdStep);
         var tdLvl = document.createElement("td");
         tdLvl.className = "step-cell lvl-cell";
+        tdLvl.setAttribute("data-label", heads[4].textContent);
         tdLvl.textContent = m.level;
         row.appendChild(tdLvl);
         var tdBase = document.createElement("td");
@@ -597,6 +600,7 @@
         var tdZones = document.createElement("td");
         tdZones.className =
             "zone-cell" + (m.zones.length || (m.type === "boss" && m.dungeon) ? "" : " none");
+        tdZones.setAttribute("data-label", heads[6].textContent);
         var zoneTags = document.createElement("div");
         zoneTags.className = "zone-tags";
         m.zones.forEach(function (zone) {
