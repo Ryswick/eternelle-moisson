@@ -40,7 +40,7 @@ window.__I18N.fr = {
   "confirm": "Confirmer ?",
   "sure": "Certain ?",
   "footer": "Outil non officiel, sans affiliation avec Ankama. La progression est enregistrée uniquement dans votre navigateur.",
-  "kofi": "Si ce site vous aide, vous pouvez offrir un Ko-fi à son créateur pour soutenir ses outils !",
+  "kofi": "Si ce site vous a aidé de quelque manière que ce soit, j'en suis très heureux ! Si le coeur y est, n'hésitez pas à offrir un Ko-fi à son créateur pour qu'il puisse continuer de l'améliorer et proposer d'autres outils à la communauté !",
   "support": "☕ Soutenir sur Ko-fi",
   "stepWord": "Étape",
   "finalStep": "Ultime épreuve",
@@ -48,7 +48,7 @@ window.__I18N.fr = {
   "footerQuest": "Site réalisé pour la quête Ocre de Dofus 3.6.",
   "langAria": "Langue",
   "titleHtml": "Ocre<em>Dex</em>",
-  "pageTitle": "OcreDex — Quête L'Éternelle Moisson, Dofus Ocre",
+  "pageTitle": "OcreDex - Quête L'Éternelle Moisson, Dofus Ocre",
   "metaDescription": "OcreDex : suivez votre progression dans la quête L'Éternelle Moisson et la capture des âmes d'Otomaï jusqu'au Dofus Ocre. Boss, archimonstres, étapes et zones."
  }
 };

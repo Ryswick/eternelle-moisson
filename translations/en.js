@@ -40,7 +40,7 @@ window.__I18N.en = {
   "confirm": "Confirm?",
   "sure": "Sure?",
   "footer": "Unofficial tool, not affiliated with Ankama. Progress data is stored only in your browser.",
-  "kofi": "If this site helped you, consider buying its creator a Ko-fi so they can keep making tools like this!",
+  "kofi": "If this site helped you in any way, I am very happy! If you feel like it, feel free to buy its creator a Ko-fi so they can keep improving it and offering other tools to the community!",
   "support": "☕ Support on Ko-fi",
   "stepWord": "Step",
   "finalStep": "Final trial",
@@ -48,7 +48,7 @@ window.__I18N.en = {
   "footerQuest": "Site made for the Ochre quest of Dofus 3.6.",
   "langAria": "Language",
   "titleHtml": "Ocre<em>Dex</em>",
-  "pageTitle": "OcreDex — Eternal Harvest quest, Ochre Dofus",
+  "pageTitle": "OcreDex - Eternal Harvest quest, Ochre Dofus",
   "metaDescription": "OcreDex: track your progress in the Eternal Harvest quest and the soul capture for Otomai, all the way to the Ochre Dofus. Bosses, archmonsters, steps and areas."
  },
  "names": {

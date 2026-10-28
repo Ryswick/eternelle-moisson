@@ -40,7 +40,7 @@ window.__I18N.pt = {
   "confirm": "Confirmar?",
   "sure": "Tens a certeza?",
   "footer": "Ferramenta não oficial, sem ligação à Ankama. O progresso é guardado apenas no teu navegador.",
-  "kofi": "Se este site te ajuda, podes oferecer um Ko-fi ao seu criador para apoiar as ferramentas.",
+  "kofi": "Se este site te ajudou de alguma forma, fico muito feliz! Se o teu coração mandar, não hesites em oferecer um Ko-fi ao seu criador para que ele possa continuar a melhorá-lo e a disponibilizar outras ferramentas à comunidade!",
   "support": "☕ Apoiar no Ko-fi",
   "stepWord": "Etapa",
   "finalStep": "Prova final",
@@ -48,7 +48,7 @@ window.__I18N.pt = {
   "footerQuest": "Site criado para a missão Ocre do Dofus 3.6.",
   "langAria": "Idioma",
   "titleHtml": "Ocre<em>Dex</em>",
-  "pageTitle": "OcreDex — Missão Colheita Eterna, Dofus Ocre",
+  "pageTitle": "OcreDex - Missão Colheita Eterna, Dofus Ocre",
   "metaDescription": "OcreDex: acompanha o teu progresso na missão Colheita Eterna e na captura de almas de Otomai até ao Dofus Ocre. Chefes, arqui-monstros, etapas e áreas."
  },
  "names": {
