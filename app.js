@@ -36,62 +36,149 @@
     });
     var STORAGE_KEY = "eternelle_moisson_progress_v2";
     var TYPE_LABELS = { boss: "Boss", archimonstre: "Archimonstre" };
-    var currentLang = storage.getItem("eternelle_moisson_lang") || "fr";
-    var TRANSLATIONS = window.TRANSLATIONS || {};
-    var translationFilesLoaded = false;
-    var UI = {};
-    var NAME_MAP = {};
-    var BASE_MAP = {};
-    var DUNGEON_MAP = {};
+    var LANGS = ["fr", "en", "es", "de", "pt"];
+    var LOCALES = { fr: "fr", en: "en", es: "es", de: "de", pt: "pt" };
+    var savedLang = storage.getItem("eternelle_moisson_lang") || "fr";
+    var currentLang = LANGS.indexOf(savedLang) !== -1 ? savedLang : "fr";
 
-    function initializeTranslations() {
-        var lang = currentLang || "fr";
-        UI = { fr: TRANSLATIONS.fr.ui, en: TRANSLATIONS.en.ui, es: TRANSLATIONS.es.ui };
-        NAME_MAP = { fr: TRANSLATIONS.fr.names, en: TRANSLATIONS.en.names, es: TRANSLATIONS.es.names };
-        BASE_MAP = { fr: TRANSLATIONS.fr.baseMonsters, en: TRANSLATIONS.en.baseMonsters, es: TRANSLATIONS.es.baseMonsters };
-        DUNGEON_MAP = { fr: TRANSLATIONS.fr.dungeons, en: TRANSLATIONS.en.dungeons, es: TRANSLATIONS.es.dungeons };
-    }
-    initializeTranslations();
+    // ---- Traductions : un fichier JSON par langue (translations/<lang>.json) ----
+    // Structure : { ui:{...}, names:{FR:trad}, bases:{FR:trad}, zones:{FR:trad}, dungeons:{FR:trad} }
+    // Les clés sont le texte français exact de monsters.js. Texte absent => le français est affiché.
+    var I18N = {};
+    var I18N_PROMISES = {};
+    var I18N_CATEGORIES = ["names", "bases", "zones", "dungeons"];
 
-    function localizedName(name) {
-        return (NAME_MAP[currentLang] && NAME_MAP[currentLang][name]) || name;
+    function translationKey(value) {
+        return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/œ/g, "oe").replace(/[^a-z0-9]/g, "");
     }
 
-    function localizedBase(name) {
-        return (BASE_MAP[currentLang] && BASE_MAP[currentLang][name]) || name;
+    function prepareLang(data) {
+        // Table normalisée (sans accents/casse/ponctuation) en secours si une clé diffère légèrement
+        data.norm = {};
+        I18N_CATEGORIES.forEach(function (cat) {
+            data.norm[cat] = {};
+            var map = data[cat] || {};
+            Object.keys(map).forEach(function (k) { data.norm[cat][translationKey(k)] = map[k]; });
+        });
+        return data;
     }
 
-    function localizedDungeon(name) {
-        return (DUNGEON_MAP[currentLang] && DUNGEON_MAP[currentLang][name]) || name;
+    // Secours pour file:// : translations/<lang>.js (même contenu que le JSON) chargé via <script>
+    function loadLangScript(lang) {
+        return new Promise(function (resolve, reject) {
+            window.__I18N = window.__I18N || {};
+            if (window.__I18N[lang])
+                return resolve(window.__I18N[lang]);
+            var el = document.createElement("script");
+            el.src = "./translations/" + lang + ".js";
+            el.onload = function () { window.__I18N[lang] ? resolve(window.__I18N[lang]) : reject(new Error("translations/" + lang + ".js vide")); };
+            el.onerror = function () { reject(new Error("Impossible de charger translations/" + lang + ".js")); };
+            document.head.appendChild(el);
+        });
     }
 
-    function localizedZone(name) {
-        return ((TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang].zones) || {})[name] || name;
+    function loadLang(lang) {
+        if (I18N_PROMISES[lang])
+            return I18N_PROMISES[lang];
+        I18N_PROMISES[lang] = Promise.resolve()
+            .then(function () { return fetch("./translations/" + lang + ".json"); })
+            .then(function (response) {
+                if (!response.ok)
+                    throw new Error("HTTP " + response.status + " pour translations/" + lang + ".json");
+                return response.json();
+            })
+            .catch(function () { return loadLangScript(lang); })
+            .then(function (data) {
+                I18N[lang] = prepareLang(data);
+                return I18N[lang];
+            })
+            .catch(function (error) {
+                delete I18N_PROMISES[lang];
+                throw error;
+            });
+        return I18N_PROMISES[lang];
     }
+
+    function showLoadError(error) {
+        console.warn("Impossible de charger les traductions. Vérifie que le dossier translations/ (.json et .js) est à côté de index.html.", error);
+        if (document.getElementById("i18nError"))
+            return;
+        var box = document.createElement("div");
+        box.id = "i18nError";
+        box.style.cssText = "background:#5a1d1d;color:#fff;padding:10px 14px;border-radius:8px;margin:12px 0;font:600 14px Nunito,sans-serif;";
+        box.textContent = "Translations could not be loaded: " + (error && error.message ? error.message : error) + ". Make sure the translations/ folder (fr/en/es/de/pt .json and .js) is next to index.html.";
+        var wrap = document.querySelector(".wrap");
+        if (wrap)
+            wrap.insertBefore(box, wrap.firstChild);
+    }
+
+    function lookupLoc(category, name) {
+        var d = I18N[currentLang];
+        if (!d || !name)
+            return null;
+        var map = d[category];
+        if (map && Object.prototype.hasOwnProperty.call(map, name) && map[name])
+            return map[name];
+        var hit = d.norm && d.norm[category] && d.norm[category][translationKey(name)];
+        return hit || null;
+    }
+
+    function localizedName(name) { return lookupLoc("names", name) || name; }
+    function localizedBase(name) { return lookupLoc("bases", name) || lookupLoc("names", name) || name; }
+    function localizedDungeon(name) { return lookupLoc("dungeons", name) || lookupLoc("zones", name) || name; }
+    function localizedZone(name) { return lookupLoc("zones", name) || lookupLoc("dungeons", name) || name; }
 
     function tr(key) {
-        return (UI[currentLang] || UI.fr)[key] || key;
+        var cur = I18N[currentLang], fr = I18N.fr;
+        return (cur && cur.ui && cur.ui[key]) || (fr && fr.ui && fr.ui[key]) || key;
+    }
+
+    function stepLabel(step) {
+        if (step === 19)
+            return tr("finalStep");
+        return tr("stepWord") + " " + step;
+    }
+
+    function populateZoneFilter() {
+        var select = document.getElementById("zoneFilter");
+        var previous = state.zone;
+        var zones = Object.keys(availableZones).sort(function (a, b) {
+            return localizedZone(a).localeCompare(localizedZone(b), LOCALES[currentLang] || "fr");
+        });
+        select.innerHTML = "";
+        var all = document.createElement("option");
+        all.value = "all";
+        all.textContent = tr("allZones");
+        select.appendChild(all);
+        zones.forEach(function (zone) {
+            var option = document.createElement("option");
+            option.value = zone;
+            option.textContent = localizedZone(zone);
+            select.appendChild(option);
+        });
+        select.value = previous;
+        if (select.value !== previous) { state.zone = "all"; select.value = "all"; }
     }
 
     function applyLanguage() {
         document.documentElement.lang = currentLang;
-        document.title = tr("title") + " — Dofus Ocre";
-    
-    document.querySelectorAll("[data-lang]").forEach(function (b) { b.classList.toggle("active", b.getAttribute("data-lang") === currentLang); });
+        document.title = tr("title") + " — " + tr("ochre");
+        document.querySelectorAll(".language-switch [data-lang]").forEach(function (b) { b.classList.toggle("active", b.getAttribute("data-lang") === currentLang); });
+        var sw = document.querySelector(".language-switch");
+        if (sw)
+            sw.setAttribute("aria-label", tr("langAria"));
         var title = document.getElementById("siteTitle");
         if (title)
-            title.innerHTML = '<img src="./otomai-by-rengiku.png" alt="" class="site-icon">' + (currentLang === "fr" ? "L'Éternelle <em>Moisson</em>" : currentLang === "en" ? "<em>Eternal Harvest</em>" : "<em>La eterna cosecha</em>");
-        var textMap = { subtitle: "subtitle", bossLabel: "bosses", archiLabel: "archi", totalLabel: "total", charHint: "switchChar", stepsHint: "switchStep", hideDoneText: "hide", exportBtn: "export", importBtn: "import", resetBtn: "reset", emptyState: "empty", footerText: "footer", kofiText: "kofi", kofiLink: "support" };
+            title.innerHTML = tr("titleHtml");
+        var textMap = { subtitle: "subtitle", bossLabel: "bosses", archiLabel: "archi", totalLabel: "total", charHint: "switchChar", stepsHint: "switchStep", hideDoneText: "hide", exportBtn: "export", importBtn: "import", emptyState: "empty", footerText: "footer", footerQuest: "footerQuest", kofiText: "kofi", kofiLink: "support" };
         Object.keys(textMap).forEach(function (id) { var el = document.getElementById(id); if (el)
             el.textContent = tr(textMap[id]); });
+        disarmReset();
         [["charactersTitle", "characters"], ["stepsTitle", "steps"], ["bestiaryTitle", "bestiary"]].forEach(function (pair) { var el = document.getElementById(pair[0]); if (el)
             el.innerHTML = '<span class="rune">◆</span> ' + tr(pair[1]); });
         var si = document.getElementById("searchInput");
         if (si)
             si.placeholder = tr("search");
-        var allOptions = document.querySelectorAll("#stepFilter option");
-        for (var oi = 1; oi < allOptions.length; oi++)
-            allOptions[oi].textContent = currentLang === "fr" ? "Étape " + allOptions[oi].value : currentLang === "en" ? "Step " + allOptions[oi].value : "Etapa " + allOptions[oi].value;
         var type = document.getElementById("typeFilter");
         if (type) {
             type.options[0].text = tr("allTypes");
@@ -99,20 +186,30 @@
             type.options[2].text = tr("archimonstre");
         }
         var sf = document.getElementById("stepFilter");
-        if (sf && sf.options.length)
+        if (sf && sf.options.length) {
             sf.options[0].text = tr("allSteps");
-        var zf = document.getElementById("zoneFilter");
-        if (zf && zf.options.length) {
-            zf.options[0].text = tr("allZones");
-            for (var zi = 1; zi < zf.options.length; zi++)
-                zf.options[zi].text = localizedZone(zf.options[zi].value);
+            for (var oi = 1; oi < sf.options.length; oi++)
+                sf.options[oi].text = stepLabel(parseInt(sf.options[oi].value, 10));
         }
+        populateZoneFilter();
         document.querySelectorAll("thead th").forEach(function (th, i) { var vals = ["✓", "monster", "type", "step", "level", "base", "zones"]; if (i > 0)
             th.textContent = tr(vals[i]); });
         renderAll();
     }
 
-    document.querySelectorAll("[data-lang]").forEach(function (b) { b.addEventListener("click", function () { currentLang = b.getAttribute("data-lang"); storage.setItem("eternelle_moisson_lang", currentLang); applyLanguage(); }); });
+    function setLanguage(lang) {
+        // Le français sert toujours de langue de secours pour les textes d'interface
+        return Promise.all([loadLang("fr"), loadLang(lang)]).then(function () {
+            currentLang = lang;
+            storage.setItem("eternelle_moisson_lang", lang);
+            var err = document.getElementById("i18nError");
+            if (err)
+                err.parentNode.removeChild(err);
+            applyLanguage();
+        }).catch(showLoadError);
+    }
+
+    document.querySelectorAll(".language-switch [data-lang]").forEach(function (b) { b.addEventListener("click", function () { setLanguage(b.getAttribute("data-lang")); }); });
     var CHAR_KEY = "eternelle_moisson_chars_v3";
 
     function newId() {
@@ -207,11 +304,6 @@
             .forEach(function (s) { steps.push(map[s]); });
     })();
 
-    function stepLabel(step) {
-        if (step === 19)
-            return "Ultime épreuve";
-        return "Étape " + step;
-    }
     var ringFill = document.getElementById("ringFill");
     var overallPct = document.getElementById("overallPct");
     var overallCnt = document.getElementById("overallCnt");
@@ -297,12 +389,6 @@
     var availableZones = {};
 
     DATA.forEach(function (m) { m.zones.forEach(function (zone) { availableZones[zone] = true; }); });
-    Object.keys(availableZones).sort(function (a, b) { return a.localeCompare(b, "fr"); }).forEach(function (zone) {
-        var option = document.createElement("option");
-        option.value = zone;
-        option.textContent = localizedZone(zone);
-        zoneFilterSelect.appendChild(option);
-    });
     var tableBody = document.getElementById("tableBody");
     var emptyState = document.getElementById("emptyState");
     var resultsCount = document.getElementById("resultsCount");
@@ -318,8 +404,9 @@
         if (state.hideDone && entry.captured)
             return false;
         if (state.search) {
-            var q = state.search.toLowerCase();
-            var hay = (m.name + " " + (m.base || "") + " " + m.zones.join(" ")).toLowerCase();
+            var q = translationKey(state.search);
+            var hay = (m.name + " " + localizedName(m.name) + " " + (m.base || "") + " " + localizedBase(m.base || "") + " " + m.zones.join(" ") + " " + m.zones.map(localizedZone).join(" ") + " " + " " + (m.dungeon || "") + " " + localizedDungeon(m.dungeon || ""));
+            hay = translationKey(hay);
             if (hay.indexOf(q) === -1)
                 return false;
         }
@@ -417,6 +504,19 @@
         entry.captured = !entry.captured;
         saveProgress();
         renderAll();
+        if (entry.captured) {
+            // Balayage horizontal de la ligne qu'on vient de valider
+            var row = tableBody.querySelector('tr[data-id="' + id + '"]');
+            if (row) {
+                row.classList.add("sweep-in");
+                row.addEventListener("animationend", function onEnd(e) {
+                    if (e.target !== row)
+                        return;
+                    row.classList.remove("sweep-in");
+                    row.removeEventListener("animationend", onEnd);
+                });
+            }
+        }
     }
     var searchInput = document.getElementById("searchInput");
     var typeFilter = document.getElementById("typeFilter");
@@ -484,7 +584,7 @@
                 renderAll();
             }
             catch (e) {
-                alert("Le fichier importé n'est pas valide.");
+                alert(tr("importInvalid"));
             }
         };
         reader.readAsText(file);
@@ -496,11 +596,11 @@
     function disarmReset() {
         clearTimeout(resetTimer);
         resetTimer = null;
-        resetBtn.textContent = "Réinitialiser";
+        resetBtn.textContent = tr("reset");
     }
     resetBtn.addEventListener("click", function () {
         if (!resetTimer) {
-            resetBtn.textContent = "Confirmer ?";
+            resetBtn.textContent = tr("confirm");
             resetTimer = setTimeout(disarmReset, 3000);
             return;
         }
@@ -571,7 +671,7 @@
                 inp.maxLength = 30;
                 inp.value = ch.name || "";
                 inp.placeholder = tr("name");
-                inp.setAttribute("aria-label", "Nom du personnage");
+                inp.setAttribute("aria-label", tr("name"));
                 var finished = false;
                 inp.addEventListener("click", function (e) { e.stopPropagation(); });
                 inp.addEventListener("dblclick", function (e) { e.stopPropagation(); });
@@ -632,9 +732,9 @@
                     var armed = pendingDeleteId === ch.id;
                     del.type = "button";
                     del.className = "ct-btn danger" + (armed ? " confirm" : "");
-                    del.textContent = armed ? "Sûr ?" : "×";
+                    del.textContent = armed ? tr("sure") : "×";
                     del.title = armed ? tr("deleteConfirm") : tr("delete");
-                    del.setAttribute("aria-label", "Supprimer le personnage");
+                    del.setAttribute("aria-label", tr("delete"));
                     del.addEventListener("click", function (e) {
                         e.stopPropagation();
                         if (pendingDeleteId === ch.id) {
@@ -690,7 +790,7 @@
         add.className = "char-add";
         add.textContent = "+";
         add.title = tr("add");
-        add.setAttribute("aria-label", "Ajouter un personnage");
+        add.setAttribute("aria-label", tr("add"));
         add.addEventListener("click", addChar);
         charTabs.appendChild(add);
     }
@@ -701,7 +801,11 @@
         renderStepsGrid();
         renderTable();
     }
-    populateStepFilter();
-    renderAll();
-    applyLanguage();
+    // Démarrage : charge fr + langue sauvegardée, puis construit les filtres et affiche tout
+    Promise.all([loadLang("fr"), loadLang(currentLang)]).then(function () {
+        populateStepFilter();
+        applyLanguage();
+    }).catch(function (error) {
+        showLoadError(error);
+    });
 })();
