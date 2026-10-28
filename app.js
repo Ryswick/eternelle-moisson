@@ -1,39 +1,50 @@
 (function () {
     "use strict";
     var storage = {
-        getItem: function (key) { try {
-            return window.localStorage.getItem(key);
-        }
-        catch (e) {
-            return null;
-        } },
-        setItem: function (key, value) { try {
-            window.localStorage.setItem(key, value);
-        }
-        catch (e) { } },
-        removeItem: function (key) { try {
-            window.localStorage.removeItem(key);
-        }
-        catch (e) { } }
+        getItem: function (key) {
+            try {
+                return window.localStorage.getItem(key);
+            } catch (e) {
+                return null;
+            }
+        },
+        setItem: function (key, value) {
+            try {
+                window.localStorage.setItem(key, value);
+            } catch (e) {}
+        },
+        removeItem: function (key) {
+            try {
+                window.localStorage.removeItem(key);
+            } catch (e) {}
+        },
     };
-    var DATA = window.MONSTER_DATA
-        .split("\n")
-        .map(function (l) { return l.trim(); })
+    var DATA = window.MONSTER_DATA.split("\n")
+        .map(function (l) {
+            return l.trim();
+        })
         .filter(Boolean)
         .map(function (line, i) {
-        var p = line.split("|");
-        var step = parseInt(p[0], 10);
-        return {
-            id: i + 1,
-            step: step,
-            type: (step <= 3 || step === 19) ? "boss" : "archimonstre",
-            name: p[1],
-            base: p[2] || "",
-            level: p[3] || "-",
-            zones: p[4] ? p[4].split(";").map(function (z) { return z.trim(); }).filter(Boolean) : [],
-            dungeon: p[5] || ""
-        };
-    });
+            var p = line.split("|");
+            var step = parseInt(p[0], 10);
+            return {
+                id: i + 1,
+                step: step,
+                type: step <= 3 || step === 19 ? "boss" : "archimonstre",
+                name: p[1],
+                base: p[2] || "",
+                level: p[3] || "-",
+                zones: p[4]
+                    ? p[4]
+                          .split(";")
+                          .map(function (z) {
+                              return z.trim();
+                          })
+                          .filter(Boolean)
+                    : [],
+                dungeon: p[5] || "",
+            };
+        });
     var STORAGE_KEY = "eternelle_moisson_progress_v2";
     var TYPE_LABELS = { boss: "Boss", archimonstre: "Archimonstre" };
     var LANGS = ["fr", "en", "es", "de", "pt"];
@@ -41,53 +52,65 @@
     var savedLang = storage.getItem("eternelle_moisson_lang") || "fr";
     var currentLang = LANGS.indexOf(savedLang) !== -1 ? savedLang : "fr";
 
-    // ---- Traductions : un fichier JSON par langue (translations/<lang>.json) ----
-    // Structure : { ui:{...}, names:{FR:trad}, bases:{FR:trad}, zones:{FR:trad}, dungeons:{FR:trad} }
-    // Les clés sont le texte français exact de monsters.js. Texte absent => le français est affiché.
     var I18N = {};
     var I18N_PROMISES = {};
     var I18N_CATEGORIES = ["names", "bases", "zones", "dungeons"];
 
     function translationKey(value) {
-        return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/œ/g, "oe").replace(/[^a-z0-9]/g, "");
+        return String(value || "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .replace(/œ/g, "oe")
+            .replace(/[^a-z0-9]/g, "");
     }
 
     function prepareLang(data) {
-        // Table normalisée (sans accents/casse/ponctuation) en secours si une clé diffère légèrement
         data.norm = {};
         I18N_CATEGORIES.forEach(function (cat) {
             data.norm[cat] = {};
             var map = data[cat] || {};
-            Object.keys(map).forEach(function (k) { data.norm[cat][translationKey(k)] = map[k]; });
+            Object.keys(map).forEach(function (k) {
+                data.norm[cat][translationKey(k)] = map[k];
+            });
         });
         return data;
     }
 
-    // Secours pour file:// : translations/<lang>.js (même contenu que le JSON) chargé via <script>
     function loadLangScript(lang) {
         return new Promise(function (resolve, reject) {
             window.__I18N = window.__I18N || {};
-            if (window.__I18N[lang])
-                return resolve(window.__I18N[lang]);
+            if (window.__I18N[lang]) return resolve(window.__I18N[lang]);
             var el = document.createElement("script");
             el.src = "./translations/" + lang + ".js";
-            el.onload = function () { window.__I18N[lang] ? resolve(window.__I18N[lang]) : reject(new Error("translations/" + lang + ".js vide")); };
-            el.onerror = function () { reject(new Error("Impossible de charger translations/" + lang + ".js")); };
+            el.onload = function () {
+                window.__I18N[lang]
+                    ? resolve(window.__I18N[lang])
+                    : reject(new Error("translations/" + lang + ".js vide"));
+            };
+            el.onerror = function () {
+                reject(new Error("Impossible de charger translations/" + lang + ".js"));
+            };
             document.head.appendChild(el);
         });
     }
 
     function loadLang(lang) {
-        if (I18N_PROMISES[lang])
-            return I18N_PROMISES[lang];
+        if (I18N_PROMISES[lang]) return I18N_PROMISES[lang];
         I18N_PROMISES[lang] = Promise.resolve()
-            .then(function () { return fetch("./translations/" + lang + ".json"); })
+            .then(function () {
+                return fetch("./translations/" + lang + ".json");
+            })
             .then(function (response) {
                 if (!response.ok)
-                    throw new Error("HTTP " + response.status + " pour translations/" + lang + ".json");
+                    throw new Error(
+                        "HTTP " + response.status + " pour translations/" + lang + ".json",
+                    );
                 return response.json();
             })
-            .catch(function () { return loadLangScript(lang); })
+            .catch(function () {
+                return loadLangScript(lang);
+            })
             .then(function (data) {
                 I18N[lang] = prepareLang(data);
                 return I18N[lang];
@@ -100,42 +123,56 @@
     }
 
     function showLoadError(error) {
-        console.warn("Impossible de charger les traductions. Vérifie que le dossier translations/ (.json et .js) est à côté de index.html.", error);
-        if (document.getElementById("i18nError"))
-            return;
+        console.warn(
+            "Impossible de charger les traductions. Vérifie que le dossier translations/ (.json et .js) est à côté de index.html.",
+            error,
+        );
+        if (document.getElementById("i18nError")) return;
         var box = document.createElement("div");
         box.id = "i18nError";
-        box.style.cssText = "background:#5a1d1d;color:#fff;padding:10px 14px;border-radius:8px;margin:12px 0;font:600 14px Nunito,sans-serif;";
-        box.textContent = "Translations could not be loaded: " + (error && error.message ? error.message : error) + ". Make sure the translations/ folder (fr/en/es/de/pt .json and .js) is next to index.html.";
+        box.style.cssText =
+            "background:#5a1d1d;color:#fff;padding:10px 14px;border-radius:8px;margin:12px 0;font:600 14px Nunito,sans-serif;";
+        box.textContent =
+            "Translations could not be loaded: " +
+            (error && error.message ? error.message : error) +
+            ". Make sure the translations/ folder (fr/en/es/de/pt .json and .js) is next to index.html.";
         var wrap = document.querySelector(".wrap");
-        if (wrap)
-            wrap.insertBefore(box, wrap.firstChild);
+        if (wrap) wrap.insertBefore(box, wrap.firstChild);
     }
 
     function lookupLoc(category, name) {
         var d = I18N[currentLang];
-        if (!d || !name)
-            return null;
+        if (!d || !name) return null;
         var map = d[category];
-        if (map && Object.prototype.hasOwnProperty.call(map, name) && map[name])
-            return map[name];
+        if (map && Object.prototype.hasOwnProperty.call(map, name) && map[name]) return map[name];
         var hit = d.norm && d.norm[category] && d.norm[category][translationKey(name)];
         return hit || null;
     }
 
-    function localizedName(name) { return lookupLoc("names", name) || name; }
-    function localizedBase(name) { return lookupLoc("bases", name) || lookupLoc("names", name) || name; }
-    function localizedDungeon(name) { return lookupLoc("dungeons", name) || lookupLoc("zones", name) || name; }
-    function localizedZone(name) { return lookupLoc("zones", name) || lookupLoc("dungeons", name) || name; }
+    function localizedName(name) {
+        return lookupLoc("names", name) || name;
+    }
+
+    function localizedBase(name) {
+        return lookupLoc("bases", name) || lookupLoc("names", name) || name;
+    }
+
+    function localizedDungeon(name) {
+        return lookupLoc("dungeons", name) || lookupLoc("zones", name) || name;
+    }
+
+    function localizedZone(name) {
+        return lookupLoc("zones", name) || lookupLoc("dungeons", name) || name;
+    }
 
     function tr(key) {
-        var cur = I18N[currentLang], fr = I18N.fr;
+        var cur = I18N[currentLang],
+            fr = I18N.fr;
         return (cur && cur.ui && cur.ui[key]) || (fr && fr.ui && fr.ui[key]) || key;
     }
 
     function stepLabel(step) {
-        if (step === 19)
-            return tr("finalStep");
+        if (step === 19) return tr("finalStep");
         return tr("stepWord") + " " + step;
     }
 
@@ -157,28 +194,53 @@
             select.appendChild(option);
         });
         select.value = previous;
-        if (select.value !== previous) { state.zone = "all"; select.value = "all"; }
+        if (select.value !== previous) {
+            state.zone = "all";
+            select.value = "all";
+        }
     }
 
     function applyLanguage() {
         document.documentElement.lang = currentLang;
-        document.title = tr("title") + " — " + tr("ochre");
-        document.querySelectorAll(".language-switch [data-lang]").forEach(function (b) { b.classList.toggle("active", b.getAttribute("data-lang") === currentLang); });
+        document.title = tr("title") + " - " + tr("ochre");
+        document.querySelectorAll(".language-switch [data-lang]").forEach(function (b) {
+            b.classList.toggle("active", b.getAttribute("data-lang") === currentLang);
+        });
         var sw = document.querySelector(".language-switch");
-        if (sw)
-            sw.setAttribute("aria-label", tr("langAria"));
+        if (sw) sw.setAttribute("aria-label", tr("langAria"));
         var title = document.getElementById("siteTitle");
-        if (title)
-            title.innerHTML = tr("titleHtml");
-        var textMap = { subtitle: "subtitle", bossLabel: "bosses", archiLabel: "archi", totalLabel: "total", charHint: "switchChar", stepsHint: "switchStep", hideDoneText: "hide", exportBtn: "export", importBtn: "import", emptyState: "empty", footerText: "footer", footerQuest: "footerQuest", kofiText: "kofi", kofiLink: "support" };
-        Object.keys(textMap).forEach(function (id) { var el = document.getElementById(id); if (el)
-            el.textContent = tr(textMap[id]); });
+        if (title) title.innerHTML = tr("titleHtml");
+        var textMap = {
+            subtitle: "subtitle",
+            bossLabel: "bosses",
+            archiLabel: "archi",
+            totalLabel: "total",
+            charHint: "switchChar",
+            stepsHint: "switchStep",
+            hideDoneText: "hide",
+            exportBtn: "export",
+            importBtn: "import",
+            emptyState: "empty",
+            footerText: "footer",
+            footerQuest: "footerQuest",
+            kofiText: "kofi",
+            kofiLink: "support",
+        };
+        Object.keys(textMap).forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el) el.textContent = tr(textMap[id]);
+        });
         disarmReset();
-        [["charactersTitle", "characters"], ["stepsTitle", "steps"], ["bestiaryTitle", "bestiary"]].forEach(function (pair) { var el = document.getElementById(pair[0]); if (el)
-            el.innerHTML = '<span class="rune">◆</span> ' + tr(pair[1]); });
+        [
+            ["charactersTitle", "characters"],
+            ["stepsTitle", "steps"],
+            ["bestiaryTitle", "bestiary"],
+        ].forEach(function (pair) {
+            var el = document.getElementById(pair[0]);
+            if (el) el.innerHTML = '<span class="rune">◆</span> ' + tr(pair[1]);
+        });
         var si = document.getElementById("searchInput");
-        if (si)
-            si.placeholder = tr("search");
+        if (si) si.placeholder = tr("search");
         var type = document.getElementById("typeFilter");
         if (type) {
             type.options[0].text = tr("allTypes");
@@ -192,24 +254,30 @@
                 sf.options[oi].text = stepLabel(parseInt(sf.options[oi].value, 10));
         }
         populateZoneFilter();
-        document.querySelectorAll("thead th").forEach(function (th, i) { var vals = ["✓", "monster", "type", "step", "level", "base", "zones"]; if (i > 0)
-            th.textContent = tr(vals[i]); });
+        document.querySelectorAll("thead th").forEach(function (th, i) {
+            var vals = ["✓", "monster", "type", "step", "level", "base", "zones"];
+            if (i > 0) th.textContent = tr(vals[i]);
+        });
         renderAll();
     }
 
     function setLanguage(lang) {
-        // Le français sert toujours de langue de secours pour les textes d'interface
-        return Promise.all([loadLang("fr"), loadLang(lang)]).then(function () {
-            currentLang = lang;
-            storage.setItem("eternelle_moisson_lang", lang);
-            var err = document.getElementById("i18nError");
-            if (err)
-                err.parentNode.removeChild(err);
-            applyLanguage();
-        }).catch(showLoadError);
+        return Promise.all([loadLang("fr"), loadLang(lang)])
+            .then(function () {
+                currentLang = lang;
+                storage.setItem("eternelle_moisson_lang", lang);
+                var err = document.getElementById("i18nError");
+                if (err) err.parentNode.removeChild(err);
+                applyLanguage();
+            })
+            .catch(showLoadError);
     }
 
-    document.querySelectorAll(".language-switch [data-lang]").forEach(function (b) { b.addEventListener("click", function () { setLanguage(b.getAttribute("data-lang")); }); });
+    document.querySelectorAll(".language-switch [data-lang]").forEach(function (b) {
+        b.addEventListener("click", function () {
+            setLanguage(b.getAttribute("data-lang"));
+        });
+    });
     var CHAR_KEY = "eternelle_moisson_chars_v3";
 
     function newId() {
@@ -222,23 +290,23 @@
             if (raw) {
                 var st = JSON.parse(raw);
                 if (st && Array.isArray(st.chars) && st.chars.length) {
-                    if (!st.chars.some(function (c) { return c.id === st.active; }))
+                    if (
+                        !st.chars.some(function (c) {
+                            return c.id === st.active;
+                        })
+                    )
                         st.active = st.chars[0].id;
                     return st;
                 }
             }
-        }
-        catch (e) {
+        } catch (e) {
             console.warn("Impossible de lire les personnages :", e);
         }
-        // Premier lancement : on récupère l'ancienne progression (si elle existe) dans le personnage par défaut
         var old = {};
         try {
             var rawOld = storage.getItem(STORAGE_KEY);
-            if (rawOld)
-                old = JSON.parse(rawOld) || {};
-        }
-        catch (e) { }
+            if (rawOld) old = JSON.parse(rawOld) || {};
+        } catch (e) {}
         var id = newId();
         return { active: id, chars: [{ id: id, name: "", progress: old }] };
     }
@@ -246,8 +314,7 @@
     function saveProgress() {
         try {
             storage.setItem(CHAR_KEY, JSON.stringify(store));
-        }
-        catch (e) {
+        } catch (e) {
             console.warn("Impossible de sauvegarder la progression :", e);
         }
     }
@@ -255,8 +322,7 @@
 
     function activeChar() {
         for (var i = 0; i < store.chars.length; i++) {
-            if (store.chars[i].id === store.active)
-                return store.chars[i];
+            if (store.chars[i].id === store.active) return store.chars[i];
         }
         return store.chars[0];
     }
@@ -264,8 +330,7 @@
     function getEntry(id) {
         var key = String(id);
         var pr = activeChar().progress;
-        if (!pr[key])
-            pr[key] = { captured: false };
+        if (!pr[key]) pr[key] = { captured: false };
         return pr[key];
     }
 
@@ -273,18 +338,21 @@
         if (Array.isArray(imported.chars) && imported.chars.length) {
             var chars = imported.chars.map(function (c) {
                 return {
-                    id: (c && typeof c.id === "string" && c.id) ? c.id : newId(),
-                    name: (c && typeof c.name === "string") ? c.name.slice(0, 30) : "",
-                    progress: (c && c.progress && typeof c.progress === "object") ? c.progress : {}
+                    id: c && typeof c.id === "string" && c.id ? c.id : newId(),
+                    name: c && typeof c.name === "string" ? c.name.slice(0, 30) : "",
+                    progress: c && c.progress && typeof c.progress === "object" ? c.progress : {},
                 };
             });
             store = { active: chars[0].id, chars: chars };
-            if (typeof imported.active === "string" && chars.some(function (c) { return c.id === imported.active; })) {
+            if (
+                typeof imported.active === "string" &&
+                chars.some(function (c) {
+                    return c.id === imported.active;
+                })
+            ) {
                 store.active = imported.active;
             }
-        }
-        else {
-            // ancien format : une simple progression, appliquée au personnage actif
+        } else {
             activeChar().progress = imported;
         }
     }
@@ -293,15 +361,18 @@
     (function buildSteps() {
         var map = {};
         DATA.forEach(function (m) {
-            if (!map[m.step])
-                map[m.step] = { step: m.step, types: {}, items: [] };
+            if (!map[m.step]) map[m.step] = { step: m.step, types: {}, items: [] };
             map[m.step].items.push(m);
             map[m.step].types[m.type] = true;
         });
         Object.keys(map)
             .map(Number)
-            .sort(function (a, b) { return a - b; })
-            .forEach(function (s) { steps.push(map[s]); });
+            .sort(function (a, b) {
+                return a - b;
+            })
+            .forEach(function (s) {
+                steps.push(map[s]);
+            });
     })();
 
     var ringFill = document.getElementById("ringFill");
@@ -320,8 +391,7 @@
         var done = { boss: 0, archimonstre: 0 };
         DATA.forEach(function (m) {
             totals[m.type]++;
-            if (getEntry(m.id).captured)
-                done[m.type]++;
+            if (getEntry(m.id).captured) done[m.type]++;
         });
         return { totals: totals, done: done };
     }
@@ -339,37 +409,54 @@
         archiCount.textContent = s.done.archimonstre + " / " + s.totals.archimonstre;
         totalCount.textContent = doneAll + " / " + totalAll;
         bossBar.style.width = (s.totals.boss ? (s.done.boss / s.totals.boss) * 100 : 0) + "%";
-        archiBar.style.width = (s.totals.archimonstre ? (s.done.archimonstre / s.totals.archimonstre) * 100 : 0) + "%";
+        archiBar.style.width =
+            (s.totals.archimonstre ? (s.done.archimonstre / s.totals.archimonstre) * 100 : 0) + "%";
         totalBar.style.width = pct + "%";
     }
     var stepsGrid = document.getElementById("stepsGrid");
     var stepFilterSelect = document.getElementById("stepFilter");
 
     function stepDominantType(stepObj) {
-        if (stepObj.types.boss)
-            return "boss";
+        if (stepObj.types.boss) return "boss";
         return "archimonstre";
     }
 
     function renderStepsGrid() {
         stepsGrid.innerHTML = "";
         steps.forEach(function (s) {
-            var doneCount = s.items.filter(function (m) { return getEntry(m.id).captured; }).length;
+            var doneCount = s.items.filter(function (m) {
+                return getEntry(m.id).captured;
+            }).length;
             var pct = Math.round((doneCount / s.items.length) * 100);
             var card = document.createElement("button");
             card.type = "button";
-            card.className = "step-card" + (state.step === String(s.step) ? " active" : "") + (pct === 100 ? " done" : "");
+            card.className =
+                "step-card" +
+                (state.step === String(s.step) ? " active" : "") +
+                (pct === 100 ? " done" : "");
             card.setAttribute("data-step", s.step);
             var badgeType = stepDominantType(s);
             card.innerHTML =
                 '<div class="st-top">' +
-                    '<span class="st-badge ' + badgeType + '">' + (badgeType === "boss" ? tr("boss") : tr("archimonstre")) + '</span>' +
-                    '<span>' + doneCount + '/' + s.items.length + '</span>' +
-                    '</div>' +
-                    '<div class="st-label">' + stepLabel(s.step) + '</div>' +
-                    '<div class="mini-track"><div class="mini-fill" style="width:' + pct + '%"></div></div>';
+                '<span class="st-badge ' +
+                badgeType +
+                '">' +
+                (badgeType === "boss" ? tr("boss") : tr("archimonstre")) +
+                "</span>" +
+                "<span>" +
+                doneCount +
+                "/" +
+                s.items.length +
+                "</span>" +
+                "</div>" +
+                '<div class="st-label">' +
+                stepLabel(s.step) +
+                "</div>" +
+                '<div class="mini-track"><div class="mini-fill" style="width:' +
+                pct +
+                '%"></div></div>';
             card.addEventListener("click", function () {
-                state.step = (state.step === String(s.step)) ? "all" : String(s.step);
+                state.step = state.step === String(s.step) ? "all" : String(s.step);
                 stepFilterSelect.value = state.step;
                 renderAll();
             });
@@ -388,27 +475,42 @@
     var zoneFilterSelect = document.getElementById("zoneFilter");
     var availableZones = {};
 
-    DATA.forEach(function (m) { m.zones.forEach(function (zone) { availableZones[zone] = true; }); });
+    DATA.forEach(function (m) {
+        m.zones.forEach(function (zone) {
+            availableZones[zone] = true;
+        });
+    });
     var tableBody = document.getElementById("tableBody");
     var emptyState = document.getElementById("emptyState");
     var resultsCount = document.getElementById("resultsCount");
 
     function matchesFilters(m) {
-        if (state.type !== "all" && m.type !== state.type)
-            return false;
-        if (state.step !== "all" && String(m.step) !== state.step)
-            return false;
-        if (state.zone !== "all" && m.zones.indexOf(state.zone) === -1)
-            return false;
+        if (state.type !== "all" && m.type !== state.type) return false;
+        if (state.step !== "all" && String(m.step) !== state.step) return false;
+        if (state.zone !== "all" && m.zones.indexOf(state.zone) === -1) return false;
         var entry = getEntry(m.id);
-        if (state.hideDone && entry.captured)
-            return false;
+        if (state.hideDone && entry.captured) return false;
         if (state.search) {
             var q = translationKey(state.search);
-            var hay = (m.name + " " + localizedName(m.name) + " " + (m.base || "") + " " + localizedBase(m.base || "") + " " + m.zones.join(" ") + " " + m.zones.map(localizedZone).join(" ") + " " + " " + (m.dungeon || "") + " " + localizedDungeon(m.dungeon || ""));
+            var hay =
+                m.name +
+                " " +
+                localizedName(m.name) +
+                " " +
+                (m.base || "") +
+                " " +
+                localizedBase(m.base || "") +
+                " " +
+                m.zones.join(" ") +
+                " " +
+                m.zones.map(localizedZone).join(" ") +
+                " " +
+                " " +
+                (m.dungeon || "") +
+                " " +
+                localizedDungeon(m.dungeon || "");
             hay = translationKey(hay);
-            if (hay.indexOf(q) === -1)
-                return false;
+            if (hay.indexOf(q) === -1) return false;
         }
         return true;
     }
@@ -423,7 +525,9 @@
         }
         emptyState.style.display = "none";
         var frag = document.createDocumentFragment();
-        filtered.forEach(function (m) { frag.appendChild(buildRow(m)); });
+        filtered.forEach(function (m) {
+            frag.appendChild(buildRow(m));
+        });
         tableBody.innerHTML = "";
         tableBody.appendChild(frag);
     }
@@ -431,7 +535,8 @@
     function buildRow(m) {
         var entry = getEntry(m.id);
         var row = document.createElement("tr");
-        row.className = (entry.captured ? "captured " : "") + (m.step % 2 === 0 ? "step-even" : "step-odd");
+        row.className =
+            (entry.captured ? "captured " : "") + (m.step % 2 === 0 ? "step-even" : "step-odd");
         row.setAttribute("data-id", m.id);
         var tdChk = document.createElement("td");
         tdChk.className = "chk-cell";
@@ -440,7 +545,9 @@
         chk.setAttribute("role", "checkbox");
         chk.setAttribute("aria-checked", entry.captured ? "true" : "false");
         chk.tabIndex = 0;
-        chk.addEventListener("click", function () { toggleCaptured(m.id); });
+        chk.addEventListener("click", function () {
+            toggleCaptured(m.id);
+        });
         chk.addEventListener("keydown", function (e) {
             if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
@@ -474,7 +581,8 @@
         tdBase.textContent = m.base ? localizedBase(m.base) : "-";
         row.appendChild(tdBase);
         var tdZones = document.createElement("td");
-        tdZones.className = "zone-cell" + (m.zones.length || (m.type === "boss" && m.dungeon) ? "" : " none");
+        tdZones.className =
+            "zone-cell" + (m.zones.length || (m.type === "boss" && m.dungeon) ? "" : " none");
         var zoneTags = document.createElement("div");
         zoneTags.className = "zone-tags";
         m.zones.forEach(function (zone) {
@@ -491,8 +599,7 @@
         }
         if (zoneTags.childNodes.length) {
             tdZones.appendChild(zoneTags);
-        }
-        else {
+        } else {
             tdZones.textContent = "-";
         }
         row.appendChild(tdZones);
@@ -505,13 +612,11 @@
         saveProgress();
         renderAll();
         if (entry.captured) {
-            // Balayage horizontal de la ligne qu'on vient de valider
             var row = tableBody.querySelector('tr[data-id="' + id + '"]');
             if (row) {
                 row.classList.add("sweep-in");
                 row.addEventListener("animationend", function onEnd(e) {
-                    if (e.target !== row)
-                        return;
+                    if (e.target !== row) return;
                     row.classList.remove("sweep-in");
                     row.removeEventListener("animationend", onEnd);
                 });
@@ -523,10 +628,13 @@
     var hideDoneCheckbox = document.getElementById("hideDoneCheckbox");
     var hideDoneToggle = document.getElementById("hideDoneToggle");
 
-    searchInput.addEventListener("input", debounce(function () {
-        state.search = searchInput.value.trim();
-        renderTable();
-    }, 120));
+    searchInput.addEventListener(
+        "input",
+        debounce(function () {
+            state.search = searchInput.value.trim();
+            renderTable();
+        }, 120),
+    );
     typeFilter.addEventListener("change", function () {
         state.type = typeFilter.value;
         renderTable();
@@ -551,7 +659,9 @@
         return function () {
             var args = arguments;
             clearTimeout(t);
-            t = setTimeout(function () { fn.apply(null, args); }, wait);
+            t = setTimeout(function () {
+                fn.apply(null, args);
+            }, wait);
         };
     }
     document.getElementById("exportBtn").addEventListener("click", function () {
@@ -571,8 +681,7 @@
     });
     importFile.addEventListener("change", function () {
         var file = importFile.files[0];
-        if (!file)
-            return;
+        if (!file) return;
         var reader = new FileReader();
         reader.onload = function () {
             try {
@@ -582,8 +691,7 @@
                 applyImport(imported);
                 saveProgress();
                 renderAll();
-            }
-            catch (e) {
+            } catch (e) {
                 alert(tr("importInvalid"));
             }
         };
@@ -615,8 +723,7 @@
         var n = 0;
         DATA.forEach(function (m) {
             var e = ch.progress[String(m.id)];
-            if (e && e.captured)
-                n++;
+            if (e && e.captured) n++;
         });
         return n;
     }
@@ -640,12 +747,12 @@
     }
 
     function deleteChar(ch) {
-        if (store.chars.length <= 1)
-            return;
+        if (store.chars.length <= 1) return;
         pendingDeleteId = null;
-        store.chars = store.chars.filter(function (c) { return c.id !== ch.id; });
-        if (store.active === ch.id)
-            store.active = store.chars[0].id;
+        store.chars = store.chars.filter(function (c) {
+            return c.id !== ch.id;
+        });
+        if (store.active === ch.id) store.active = store.chars[0].id;
         saveProgress();
         renderAll();
     }
@@ -673,32 +780,32 @@
                 inp.placeholder = tr("name");
                 inp.setAttribute("aria-label", tr("name"));
                 var finished = false;
-                inp.addEventListener("click", function (e) { e.stopPropagation(); });
-                inp.addEventListener("dblclick", function (e) { e.stopPropagation(); });
+                inp.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                });
+                inp.addEventListener("dblclick", function (e) {
+                    e.stopPropagation();
+                });
                 inp.addEventListener("keydown", function (e) {
                     e.stopPropagation();
                     if (e.key === "Enter") {
                         e.preventDefault();
-                        if (finished)
-                            return;
+                        if (finished) return;
                         finished = true;
                         ch.name = inp.value.trim().slice(0, 30);
                         editingId = null;
                         saveProgress();
                         renderAll();
-                    }
-                    else if (e.key === "Escape") {
+                    } else if (e.key === "Escape") {
                         e.preventDefault();
-                        if (finished)
-                            return;
+                        if (finished) return;
                         finished = true;
                         editingId = null;
                         renderChars();
                     }
                 });
                 inp.addEventListener("blur", function () {
-                    if (finished)
-                        return;
+                    if (finished) return;
                     finished = true;
                     ch.name = inp.value.trim().slice(0, 30);
                     editingId = null;
@@ -706,14 +813,19 @@
                     renderAll();
                 });
                 top.appendChild(inp);
-                setTimeout(function () { inp.focus(); inp.select(); }, 0);
-            }
-            else {
+                setTimeout(function () {
+                    inp.focus();
+                    inp.select();
+                }, 0);
+            } else {
                 var nm = document.createElement("span");
                 nm.className = "ct-name" + (ch.name ? "" : " unnamed");
                 nm.textContent = ch.name || tr("unnamed");
                 nm.title = tr("renameDbl");
-                nm.addEventListener("dblclick", function (e) { e.stopPropagation(); renameChar(ch); });
+                nm.addEventListener("dblclick", function (e) {
+                    e.stopPropagation();
+                    renameChar(ch);
+                });
                 top.appendChild(nm);
             }
             if (isActive && !editing) {
@@ -725,7 +837,10 @@
                 ren.textContent = "✎";
                 ren.title = tr("rename");
                 ren.setAttribute("aria-label", tr("rename"));
-                ren.addEventListener("click", function (e) { e.stopPropagation(); renameChar(ch); });
+                ren.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    renameChar(ch);
+                });
                 acts.appendChild(ren);
                 if (store.chars.length > 1) {
                     var del = document.createElement("button");
@@ -767,8 +882,7 @@
             cnt.textContent = done + " / " + DATA.length;
             tab.appendChild(cnt);
             function select() {
-                if (store.active === ch.id)
-                    return;
+                if (store.active === ch.id) return;
                 store.active = ch.id;
                 pendingDeleteId = null;
                 saveProgress();
@@ -776,8 +890,7 @@
             }
             tab.addEventListener("click", select);
             tab.addEventListener("keydown", function (e) {
-                if (e.target !== tab)
-                    return;
+                if (e.target !== tab) return;
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     select();
@@ -801,11 +914,12 @@
         renderStepsGrid();
         renderTable();
     }
-    // Démarrage : charge fr + langue sauvegardée, puis construit les filtres et affiche tout
-    Promise.all([loadLang("fr"), loadLang(currentLang)]).then(function () {
-        populateStepFilter();
-        applyLanguage();
-    }).catch(function (error) {
-        showLoadError(error);
-    });
+    Promise.all([loadLang("fr"), loadLang(currentLang)])
+        .then(function () {
+            populateStepFilter();
+            applyLanguage();
+        })
+        .catch(function (error) {
+            showLoadError(error);
+        });
 })();
