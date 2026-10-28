@@ -39,7 +39,7 @@ window.__I18N.fr = {
   "add": "Ajouter un personnage",
   "confirm": "Confirmer ?",
   "sure": "Certain ?",
-  "footer": "Outil non officiel, sans affiliation avec Ankama. La progression est enregistrée uniquement dans votre navigateur.",
+  "footer": "Cet outil est non officiel et n'a aucune affiliation avec Ankama, tous les droits sur les noms des créatures leur appartiennent. La progression est enregistrée uniquement dans votre navigateur. Vous pouvez fermer la page, mais si vous comptez utiliser un autre navigateur / une autre machine, pensez-bien à exporter vos données !",
   "kofi": "Si ce site vous a aidé de quelque manière que ce soit, j'en suis très heureux ! Si le coeur y est, n'hésitez pas à offrir un Ko-fi à son créateur pour qu'il puisse continuer de l'améliorer et proposer d'autres outils à la communauté !",
   "support": "☕ Soutenir sur Ko-fi",
   "stepWord": "Étape",

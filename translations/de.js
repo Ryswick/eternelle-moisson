@@ -39,7 +39,7 @@ window.__I18N.de = {
   "add": "Charakter hinzufügen",
   "confirm": "Bestätigen?",
   "sure": "Sicher?",
-  "footer": "Inoffizielles Tool, nicht mit Ankama verbunden. Der Fortschritt wird nur in deinem Browser gespeichert.",
+"footer": "Dieses Tool ist inoffiziell und steht in keiner Verbindung zu Ankama. Alle Rechte an den Namen der Kreaturen liegen bei ihnen. Der Fortschritt wird nur in Ihrem Browser gespeichert. Sie können die Seite schließen, aber wenn Sie einen anderen Browser oder ein anderes Gerät verwenden möchten, denken Sie bitte daran, Ihre Daten zu exportieren!",
   "kofi": "Wenn diese Seite dir in irgendeiner Weise geholfen hat, freut mich das sehr! Wenn du möchtest, kannst du dem Entwickler gerne einen Ko-fi spendieren, damit er die Seite weiter verbessern und der Community neue Tools bereitstellen kann!",
   "support": "☕ Auf Ko-fi unterstützen",
   "stepWord": "Schritt",
